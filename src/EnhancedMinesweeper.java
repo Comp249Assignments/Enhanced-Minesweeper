@@ -10,12 +10,21 @@ public class EnhancedMinesweeper extends JFrame{
 	private boolean playing;
 	Random random= new Random();
 	
+	//TO DO: fix up the GUI to have a score (will that be based on time? That's how classic minesweeper does it, so I say we should do that. And the bonus score thing will just
+	//subtract some of the time) as well as the number of mines. Maybe also have a button to restart (and then we would also need a restart method). Also a counter for the
+	//number of probes along with a button to use the probe, I guess? (or probed could be used by pushing a button and then clicking. Let me know if that's how you want to
+	//implement it and I'll do it. It's really easy to do)
+	
+	//TO DO: Add save and load stuff
+	
+	//TO DO: Implement powerups
+	
 	public EnhancedMinesweeper(){
 		int difficulty = 1;
 		lives=3;
 		playing = true;
 		//TO DO: We should add in code to ask the user which difficulty they want and set the size of the grid accordingly. For now I'll just have it at 1, which is easy.
-		//2 will be medium and 3 will be hard. If we have time we can also add in custom settings.
+		//2 will be medium and 3 will be hard. If we have time we can also add in custom settings. Ideally this should also be a frame that we design, not just a JOptionPane
 		//I put the dimensions and number of mines based on the difficulty setting of the original minesweeper
 		//Btw, in case you get mixed up (I always do) 2D arrays go array[row][column]
 		if(difficulty==1){
@@ -190,6 +199,7 @@ public class EnhancedMinesweeper extends JFrame{
 	}
 	
 	//TO DO: Allow the user to start a new game after this and the victory method as well (including the option to change the difficulty setting)
+	//TO DO: When they lose reveal all the mines and rewards. So we also need 16 px by 16 px images for the powerups
 	public void hitMine(){
 		lives--;
 		if(lives==0){

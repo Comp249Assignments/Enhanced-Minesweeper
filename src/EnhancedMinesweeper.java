@@ -7,11 +7,13 @@ import javax.swing.*;
 public class EnhancedMinesweeper extends JFrame{
 	private Square squares[][];
 	private int mines, lives, height, width;
+	private boolean playing;
 	Random random= new Random();
 	
 	public EnhancedMinesweeper(){
 		int difficulty = 1;
 		lives=3;
+		playing = true;
 		//TO DO: We should add in code to ask the user which difficulty they want and set the size of the grid accordingly. For now I'll just have it at 1, which is easy.
 		//2 will be medium and 3 will be hard. If we have time we can also add in custom settings.
 		//I put the dimensions and number of mines based on the difficulty setting of the original minesweeper
@@ -187,20 +189,40 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
+	//TO DO: Allow the user to start a new game after this and the victory method as well (including the option to change the difficulty setting)
+	public void hitMine(){
+		lives--;
+		if(lives==0){
+			JOptionPane.showMessageDialog(null, "GAME OVER\nYou have run out of lives");
+			playing=false;
+		}
+	}
+	
+	//TO DO: Implement this method that will check if every space that is not a mine has been clicked and if so pops up a victory message and sets playing to false
+	public void checkWin(){
+		
+	}
+	
 	//TO DO: Implement right clicking to flag something as having a mine (maybe also to flag something as having 2 or 3 mines. Idk how to check a right click. Probably isn't too complicated
 	class mouse implements MouseListener{
 
 		@Override
 		public void mouseClicked(MouseEvent m) {
-			//There's some empty space at the top and bottom, so the numbers I subtract fix that
-			//TO DO: Test on other difficulties
-			int x = (m.getX()-9)/16;
-			int y = (m.getY()-35)/16;
-			/*System.out.println(x + " " + m.getX());
-			System.out.println(y + " " + m.getY());*/
-			int type = squares[y][x].clicked();
-			if(type==3)
-				clickAdjacent(x, y);
+			if(playing){
+				//There's some empty space at the top and bottom, so the numbers I subtract fix that
+				//TO DO: Test on other difficulties
+				int x = (m.getX()-9)/16;
+				int y = (m.getY()-35)/16;
+				/*System.out.println(x + " " + m.getX());
+				System.out.println(y + " " + m.getY());*/
+				int type = squares[y][x].clicked();
+				if(type==1){
+					hitMine();
+				}
+				else if(type==3)
+					clickAdjacent(x, y);
+				checkWin();
+			}
 		}
 
 		@Override

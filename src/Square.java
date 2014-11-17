@@ -6,7 +6,7 @@ public class Square extends JLabel{
 	private ImageIcon squareImage = new ImageIcon("square.png");
 	private ImageIcon clickedSquareImage = new ImageIcon("square clicked.png");
 	private ImageIcon mineImage = new ImageIcon("mine.png");
-	//array of all the images for the different numbers. Someone please make all these images and have the right dimensions for them
+	//array of all the images for the different numbers. TO DO: Someone please make all these images and have the right dimensions for them (16 px by 16 px)
 	private ImageIcon[] numberImages = {new ImageIcon("1.png"), new ImageIcon("2.png"), new ImageIcon("3.png"), new ImageIcon("4.png"), new ImageIcon("5.png"), new ImageIcon("6.png"), new ImageIcon("7.png"), new ImageIcon("8.png"), new ImageIcon("9.png"), new ImageIcon("10.png"), new ImageIcon("11.png"), new ImageIcon("12.png"), new ImageIcon("13.png"), new ImageIcon("14.png"), new ImageIcon("15.png"), new ImageIcon("16.png"), new ImageIcon("17.png"), new ImageIcon("18.png"), new ImageIcon("19.png"), new ImageIcon("20.png"), new ImageIcon("21.png"), new ImageIcon("22.png"), new ImageIcon("23.png"), new ImageIcon("24.png")};
 	
 	public Square(){

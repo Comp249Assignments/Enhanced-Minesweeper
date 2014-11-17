@@ -13,7 +13,7 @@ public class EnhancedMinesweeper extends JFrame{
 	//TO DO: fix up the GUI to have a score (will that be based on time? That's how classic minesweeper does it, so I say we should do that. And the bonus score thing will just
 	//subtract some of the time) as well as the number of mines. Maybe also have a button to restart (and then we would also need a restart method). Also a counter for the
 	//number of probes along with a button to use the probe, I guess? (or probed could be used by pushing a button and then clicking. Let me know if that's how you want to
-	//implement it and I'll do it. It's really easy to do)
+	//implement it and I'll do it. It's really easy to do). Also need save and load buttons (or they could be in a tool bar at the top. That would make it look nicer for sure)
 	
 	//TO DO: Add save and load stuff
 	
@@ -25,7 +25,9 @@ public class EnhancedMinesweeper extends JFrame{
 		playing = true;
 		//TO DO: We should add in code to ask the user which difficulty they want and set the size of the grid accordingly. For now I'll just have it at 1, which is easy.
 		//2 will be medium and 3 will be hard. If we have time we can also add in custom settings. Ideally this should also be a frame that we design, not just a JOptionPane
+		//Alternatively difficulty could be managed through a toolbar at the top. Saving and loading could also work through the toolbar
 		//I put the dimensions and number of mines based on the difficulty setting of the original minesweeper
+		
 		//Btw, in case you get mixed up (I always do) 2D arrays go array[row][column]
 		if(difficulty==1){
 			squares = new Square[9][9];

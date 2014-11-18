@@ -20,7 +20,11 @@ public class EnhancedMinesweeper extends JFrame{
 	//TO DO: Implement powerups
 	
 	public EnhancedMinesweeper(){
-		int difficulty = 1;
+		DifficultySelector selector = new DifficultySelector();
+		while(selector.isVisible()){
+			
+		}
+		int difficulty = selector.getDifficulty();
 		lives=3;
 		playing = true;
 		//TO DO: We should add in code to ask the user which difficulty they want and set the size of the grid accordingly. For now I'll just have it at 1, which is easy.
@@ -44,21 +48,31 @@ public class EnhancedMinesweeper extends JFrame{
 			width = 18*16;
 			setLayout(new GridLayout(16, 16));
 		}
-		else{
+		else if(difficulty==3){
 			squares = new Square[16][30];
 			mines = 99;
 			height = 21*16;
 			width = 18*30;
 			setLayout(new GridLayout(16, 30));
 		}
+		else{
+			height = selector.getGridHeight();
+			width = selector.getGridWidth();
+			mines = selector.getMines();
+			squares = new Square[height][width];
+			setLayout(new GridLayout(height, width));
+			height = 21*height;
+			width = 18*width;
+		}
 		//Initialize all the square objects and add them to the frame
 		for(int y=0; y<squares.length; y++){
 			for(int x=0; x<squares[y].length; x++){
 				squares[y][x] = new Square();
+				squares[y][x].addActionListener(new buttonListener());
 				add(squares[y][x]);
 			}
 		}
-		addMouseListener(new mouse());
+		//addMouseListener(new mouse());
 		setMines(mines);
 		setNumber();
 		setSize(width, height);
@@ -215,18 +229,40 @@ public class EnhancedMinesweeper extends JFrame{
 		
 	}
 	
+	class buttonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			for(int y=0; y<squares.length; y++){
+				for(int x=0; x<squares[y].length; x++){
+					if(e.getSource()==squares[y][x]){
+						int type = squares[y][x].clicked();
+						if(type==1){
+							hitMine();
+						}
+						else if(type==3)
+							clickAdjacent(x, y);
+						checkWin();
+					}
+				}
+			}
+		}
+		
+	}
+	
 	//TO DO: Implement right clicking to flag something as having a mine (maybe also to flag something as having 2 or 3 mines. Idk how to check a right click. Probably isn't too complicated
-	class mouse implements MouseListener{
+	/*class mouse implements MouseListener{
 
 		@Override
 		public void mouseClicked(MouseEvent m) {
 			if(playing){
 				//There's some empty space at the top and bottom, so the numbers I subtract fix that
 				//TO DO: Test on other difficulties
+				//ERROR: Doesn't work on other difficulties
 				int x = (m.getX()-9)/16;
 				int y = (m.getY()-35)/16;
-				/*System.out.println(x + " " + m.getX());
-				System.out.println(y + " " + m.getY());*/
+				System.out.println(x + " " + m.getX());
+				System.out.println(y + " " + m.getY());
 				int type = squares[y][x].clicked();
 				if(type==1){
 					hitMine();
@@ -256,5 +292,5 @@ public class EnhancedMinesweeper extends JFrame{
 		public void mouseReleased(MouseEvent m) {
 			
 		}
-	}
+	}*/
 }

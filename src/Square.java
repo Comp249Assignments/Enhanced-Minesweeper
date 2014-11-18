@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class Square extends JLabel{
+public class Square extends JButton{
 	private int mines, number;
 	private boolean clicked, powerup;
 	private ImageIcon squareImage = new ImageIcon("square.png");
@@ -61,6 +61,7 @@ public class Square extends JLabel{
 			}
 			else{
 				setIcon(clickedSquareImage);
+				//setBorderPainted(false);
 				return 3;
 			}
 		}

@@ -93,6 +93,7 @@ public class DifficultySelector extends JFrame{
 				visible=false;
 			}
 			else{
+				//TO DO: Proper error handling for this stuff
 				difficulty=4;
 				//System.out.println("Here");
 				boolean error=false;

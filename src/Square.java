@@ -34,7 +34,7 @@ public class Square extends JButton{
 		this.clicked = clicked;
 		if(!clicked){
 			setIcon(squareImage);
-			setText(null);
+			//setText(null);
 		}
 	}
 	
@@ -66,10 +66,10 @@ public class Square extends JButton{
 				return 1;
 			}
 			else if(number>0){
-				//setIcon(numberImages[number-1]);
+				setIcon(numberImages[number-1]);
 				//For now I just set text showing the number, but it doesn't look as good as if we put images
-				setIcon(null);
-				setText(number+"");
+				//setIcon(null);
+				//setText(number+"");
 				return 2;
 			}
 			else{

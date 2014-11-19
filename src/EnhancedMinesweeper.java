@@ -55,8 +55,8 @@ public class EnhancedMinesweeper extends JFrame{
 		mines = selector.getMines();
 		squares = new Square[height][width];
 		p2.setLayout(new GridLayout(height, width));
-		height = 21*height;
-		width = 18*width;
+		height = 28*height;
+		width = 25*width;
 		
 		/*if(difficulty==1){
 			squares = new Square[9][9];
@@ -289,6 +289,9 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
+	//TO DO: Implement high scores
+	
+	//TO DO: reset method should actually change the layout of everything
 	public void reset(){
 		for(int y=0; y<squares.length; y++){
 			for(int x=0; x<squares[y].length; x++){
@@ -304,6 +307,7 @@ public class EnhancedMinesweeper extends JFrame{
 		updateMineLabel();
 		timeLabel.setText("000");
 		livesLabel.setText("Lives: 3");
+		playing=true;
 	}
 	
 	class buttonListener implements ActionListener{

@@ -13,6 +13,7 @@ public class Square extends JButton{
 		mines=0;
 		powerup=false;
 		clicked=false;
+		//setFont(new Font("Arial", Font.PLAIN, 5));
 		setIcon(squareImage);
 	}
 	
@@ -29,6 +30,14 @@ public class Square extends JButton{
 		this.number = number;
 	}
 	
+	public void setClicked(boolean clicked){
+		this.clicked = clicked;
+		if(!clicked){
+			setIcon(squareImage);
+			setText(null);
+		}
+	}
+	
 	public int getMines(){
 		return mines;
 	}
@@ -39,6 +48,10 @@ public class Square extends JButton{
 	
 	public int getNumber(){
 		return number;
+	}
+	
+	public boolean isClicked(){
+		return clicked;
 	}
 	
 	//Method that will be run when a space has been clicked. It will return an integer based on what type of space it is (1 for mine, 2 for space with adjacent mines,

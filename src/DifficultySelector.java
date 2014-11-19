@@ -69,17 +69,27 @@ public class DifficultySelector extends JFrame{
 	class buttonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//I put the dimensions and number of mines based on the difficulty setting of the original minesweeper
 			setVisible(false);
 			if(r1.isSelected()){
 				difficulty=1;
+				height=10;
+				width=10;
+				mines=10;
 				visible=false;
 			}
 			else if(r2.isSelected()){
 				difficulty=2;
+				height=16;
+				width=16;
+				mines=40;
 				visible=false;
 			}
 			else if(r3.isSelected()){
 				difficulty=3;
+				height=16;
+				width=30;
+				mines=99;
 				visible=false;
 			}
 			else{

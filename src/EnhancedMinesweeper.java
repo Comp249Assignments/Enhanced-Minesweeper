@@ -254,6 +254,7 @@ public class EnhancedMinesweeper extends JFrame{
 		if(lives==0){
 			JOptionPane.showMessageDialog(null, "GAME OVER\nYou have run out of lives");
 			playing=false;
+			timer.stop();
 		}
 	}
 	

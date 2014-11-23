@@ -8,7 +8,8 @@ import javax.swing.Timer;
 public class EnhancedMinesweeper extends JFrame{
 	private Square squares[][];
 	private DifficultySelector selector = new DifficultySelector();
-	private ImageIcon smileyImage = new ImageIcon("smiley button.png"), winSmileyImage = new ImageIcon("win smiley button.png");
+	private ImageIcon smileyImage = new ImageIcon("smiley button.png"), winSmileyImage = new ImageIcon("win smiley button.png"), superSaiyan=new ImageIcon("superSaiyan.jpg");
+	private ImageIcon shieldImage=new ImageIcon("shield.png"), probeImage=new ImageIcon("probe.png"),bonus=new ImageIcon("bonus.png") , superSquare=new ImageIcon("superSquare.png");
 	private JPanel p1 = new JPanel(), p2 = new JPanel(), p3=new JPanel();
 	private JLabel mineLabel = new JLabel("000"), timeLabel = new JLabel("000"), livesLabel = new JLabel("Lives: 3"), shieldsLabel=new JLabel("Shields: 0"), probesLabel=new JLabel("Probes: 0");
 	private JButton smiley = new JButton(smileyImage);
@@ -105,6 +106,7 @@ public class EnhancedMinesweeper extends JFrame{
 			for(int x=0; x<squares[y].length; x++){
 				squares[y][x] = new Square();
 				squares[y][x].addActionListener(new buttonListener());
+				squares[y][x].addMouseListener(new handleRight());
 				p2.add(squares[y][x]);
 			}
 		}
@@ -262,13 +264,15 @@ public class EnhancedMinesweeper extends JFrame{
 	//TO DO: When they lose reveal all the mines and rewards. So we also need 16 px by 16 px images for the powerups
 	public void hitMine(){
 		score-=120;
-		if (shields>0){
-			shields--;
-			shieldsLabel.setText("Shields: " + shields);
-		}
-		else{
-			lives--;
-			livesLabel.setText("Lives: " + lives);
+		if(!immortality){
+			if (shields>0){
+				shields--;
+				shieldsLabel.setText("Shields: " + shields);
+			}
+			else{
+				lives--;
+				livesLabel.setText("Lives: " + lives);
+			}
 		}
 		mines--;
 		updateMineLabel();
@@ -280,23 +284,30 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	public void implementPowerUp(int type){
-		//if(type==9){
-			//immortality=true;
-			//return;
-		//}
+	public void implementPowerUp(int type, int x, int y){
+		if(type==9){
+			immortality=true;
+			lives=999;
+			livesLabel.setText("Lives: "+ lives);
+			smiley.setIcon(superSaiyan);
+			squares[y][x].setIcon(superSquare);
+			return;
+		}
 		
 		switch (type%3){
 			case 0:
 				shields+=3;
+				squares[y][x].setIcon(shieldImage);
 				shieldsLabel.setText("Shields: " + shields);
 				break;
 			case 1:
 				probes++;
+				squares[y][x].setIcon(probeImage);
 				probesLabel.setText("Probes: " + probes);
 				break;
 			case 2:
 				score+=200;
+				squares[y][x].setIcon(bonus);
 				break;
 		}
 	}
@@ -358,6 +369,22 @@ public class EnhancedMinesweeper extends JFrame{
 		playing=true;
 	}
 	
+	class handleRight implements MouseListener{
+		public void mousePressed(MouseEvent e){}
+		
+		public void mouseReleased(MouseEvent e){}
+		
+		public void mouseEntered(MouseEvent e){}
+		
+		public void mouseExited(MouseEvent e){}
+		
+		public void mouseClicked(MouseEvent e){
+			if(SwingUtilities.isRightMouseButton(e)|| e.isControlDown() ){
+					 ((Square)e.getSource()).flag();
+			}
+		}
+	}
+	
 	class buttonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -374,23 +401,30 @@ public class EnhancedMinesweeper extends JFrame{
 									timeGoing=true;
 									timer.start();
 								}
+								
 								int type = squares[y][x].clicked();
+								if(squares[y][x].getFlagged()&&probes>0){
+									probes--;
+									probesLabel.setText("Probes: " + probes);
+									if(type==1){
+										shields++;
+									}	
+								}
 								if(type==1){
+									
 									hitMine();
 								}
 								else if(type==3)
 									clickAdjacent(x, y);
-								
-								else if(type>=4){
-									implementPowerUp(type-4);
-									
-									score+=20;
-								}
+								else if(type>4)
+									implementPowerUp(type-4,x,y);
+							
 								checkWin();
 							}
 							
 						}
 					}
+					score+=20;
 				}
 			}
 		}

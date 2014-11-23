@@ -71,6 +71,7 @@ public class DifficultySelector extends JFrame{
 	}
 	
 	
+	
 	class buttonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {

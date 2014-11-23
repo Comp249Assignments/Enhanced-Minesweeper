@@ -2,12 +2,12 @@ import javax.swing.*;
 
 public class Square  extends JButton{
 	private int mines, number;
-	private boolean clicked;
+	private boolean clicked,flagged;
 	private int powerup;
-	private ImageIcon squareImage = new ImageIcon("square.png");
+	private ImageIcon squareImage = new ImageIcon("square.png"), flagImage=new ImageIcon("flag.png");
 	private ImageIcon clickedSquareImage = new ImageIcon("square clicked.png");
 	private ImageIcon mineImage = new ImageIcon("mine.png");
-	private ImageIcon shieldImage=new ImageIcon();
+	
 	//array of all the images for the different numbers. TO DO: Someone please make all these images and have the right dimensions for them (16 px by 16 px)
 	private ImageIcon[] numberImages = {new ImageIcon("1.png"), new ImageIcon("2.png"), new ImageIcon("3.png"), new ImageIcon("4.png"), new ImageIcon("5.png"), new ImageIcon("6.png"), new ImageIcon("7.png"), new ImageIcon("8.png"), new ImageIcon("9.png"), new ImageIcon("10.png"), new ImageIcon("11.png"), new ImageIcon("12.png"), new ImageIcon("13.png"), new ImageIcon("14.png"), new ImageIcon("15.png"), new ImageIcon("16.png"), new ImageIcon("17.png"), new ImageIcon("18.png"), new ImageIcon("19.png"), new ImageIcon("20.png"), new ImageIcon("21.png"), new ImageIcon("22.png"), new ImageIcon("23.png"), new ImageIcon("24.png")};
 	
@@ -15,6 +15,7 @@ public class Square  extends JButton{
 		mines=0;
 		powerup=0;
 		clicked=false;
+		flagged=false;
 		//setFont(new Font("Arial", Font.PLAIN, 5));
 		setIcon(squareImage);
 	}
@@ -56,6 +57,18 @@ public class Square  extends JButton{
 		return clicked;
 	}
 	
+	public boolean getFlagged(){
+		return flagged;
+	}
+	
+	public void flag(){
+		flagged=!flagged;
+		if(flagged)
+			setIcon(flagImage);
+		else
+			setIcon(squareImage);
+	}
+	
 	//Method that will be run when a space has been clicked. It will return an integer based on what type of space it is (1 for mine, 2 for space with adjacent mines,
 	//3 for empty space, and 4 for a space that's already been clicked)
 	//TO DO: Might need to add more cases for powerups and such
@@ -68,8 +81,7 @@ public class Square  extends JButton{
 				return 1;
 			}
 			else if(powerup>0){
-				//setIcon(shieldIcon);
-				setIcon(clickedSquareImage);
+				
 				return (powerup+4);
 			}
 			else if(number>0){
@@ -87,6 +99,7 @@ public class Square  extends JButton{
 		}
 		return -1;
 	}
+	
 	
 	public int adjacentClicked(){
 		if(mines==0 && powerup==0){

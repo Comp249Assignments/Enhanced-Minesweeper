@@ -40,6 +40,8 @@ public class EnhancedMinesweeper extends JFrame{
 		score=0;
 		time=0;
 		playing = true;
+		score=0;
+		
 		
 		setLayout(new BorderLayout());
 		
@@ -117,6 +119,7 @@ public class EnhancedMinesweeper extends JFrame{
 	}
 	
 	public static void main(String[] args) {
+		HighScoreBoard k=new HighScoreBoard();
 		EnhancedMinesweeper frame = new EnhancedMinesweeper();
 		frame.setTitle("Enhanced Minesweeper");
 		//I like these dimensions for easy mode, but feel free to play around with them if you can find better ones
@@ -257,6 +260,7 @@ public class EnhancedMinesweeper extends JFrame{
 	//TO DO: Allow the user to start a new game after this and the victory method as well (including the option to change the difficulty setting)
 	//TO DO: When they lose reveal all the mines and rewards. So we also need 16 px by 16 px images for the powerups
 	public void hitMine(){
+		score-=120;
 		if (shields>0){
 			shields--;
 			shieldsLabel.setText("Shields: " + shields);
@@ -291,7 +295,7 @@ public class EnhancedMinesweeper extends JFrame{
 				probesLabel.setText("Probes: " + probes);
 				break;
 			case 2:
-				score+=500;
+				score+=200;
 				break;
 		}
 	}
@@ -322,8 +326,9 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 		if(won){
 			playing=false;
+			score=score*selector.getDifficulty()-time;
 			smiley.setIcon(winSmileyImage);
-			JOptionPane.showMessageDialog(null, "You won!");
+			JOptionPane.showMessageDialog(null, "You won!\nyour score is: "+ score);
 		}
 	}
 	
@@ -377,6 +382,8 @@ public class EnhancedMinesweeper extends JFrame{
 								
 								else if(type>=4){
 									implementPowerUp(type-4);
+									
+									score+=20;
 								}
 								checkWin();
 							}

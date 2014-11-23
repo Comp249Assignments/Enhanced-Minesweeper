@@ -6,7 +6,7 @@ public class Square  extends JButton{
 	private int powerup;
 	private ImageIcon squareImage = new ImageIcon("square.png"), flagImage=new ImageIcon("flag.png");
 	private ImageIcon clickedSquareImage = new ImageIcon("square clicked.png");
-	private ImageIcon mineImage = new ImageIcon("mine.png");
+	private ImageIcon[] mineImages = {new ImageIcon("mine.png"), new ImageIcon("mine2.png"), new ImageIcon("mine3.png")};
 	
 	//array of all the images for the different numbers. TO DO: Someone please make all these images and have the right dimensions for them (16 px by 16 px)
 	private ImageIcon[] numberImages = {new ImageIcon("1.png"), new ImageIcon("2.png"), new ImageIcon("3.png"), new ImageIcon("4.png"), new ImageIcon("5.png"), new ImageIcon("6.png"), new ImageIcon("7.png"), new ImageIcon("8.png"), new ImageIcon("9.png"), new ImageIcon("10.png"), new ImageIcon("11.png"), new ImageIcon("12.png"), new ImageIcon("13.png"), new ImageIcon("14.png"), new ImageIcon("15.png"), new ImageIcon("16.png"), new ImageIcon("17.png"), new ImageIcon("18.png"), new ImageIcon("19.png"), new ImageIcon("20.png"), new ImageIcon("21.png"), new ImageIcon("22.png"), new ImageIcon("23.png"), new ImageIcon("24.png")};
@@ -77,7 +77,7 @@ public class Square  extends JButton{
 		{
 			clicked=true;
 			if(mines>0){
-				setIcon(mineImage);
+				setIcon(mineImages[mines-1]);
 				return 1;
 			}
 			else if(powerup>0){

@@ -220,7 +220,7 @@ public class EnhancedMinesweeper extends JFrame{
 	}
 	
 	//If you click an empty space this will clear out all adjacent empty spaces
-	//ERROR: Doesn't always work
+	//ERROR: Adjacent click won't click something if it's a powerup
 	public void clickAdjacent(int x, int y){
 		//Checks spaces above current space
 		if(y>0){

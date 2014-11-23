@@ -82,7 +82,7 @@ public class DifficultySelector extends JFrame{
 				height=10;
 				width=10;
 				mines=10;
-				powerups=3;
+				powerups=10;
 				visible=false;
 			}
 			else if(r2.isSelected()){

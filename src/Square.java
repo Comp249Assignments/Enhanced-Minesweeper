@@ -6,6 +6,7 @@ public class Square  extends JButton{
 	private int powerup;
 	private ImageIcon squareImage = new ImageIcon("square.png");
 	private ImageIcon clickedSquareImage = new ImageIcon("square clicked.png");
+	private ImageIcon shieldImage=new ImageIcon("shield.png"), probeImage=new ImageIcon("probe.png"),bonus=new ImageIcon("bonus.png") , superSquare=new ImageIcon("superSquare.png");
 	private ImageIcon[] mineImages = {new ImageIcon("mine.png"), new ImageIcon("mine2.png"), new ImageIcon("mine3.png")};
 	private ImageIcon[] flagImages = {new ImageIcon("flag.png"), new ImageIcon("flag2.png"), new ImageIcon("flag3.png")};
 	
@@ -92,16 +93,29 @@ public class Square  extends JButton{
 				setIcon(mineImages[mines-1]);
 				return 1;
 			}
-			else if(powerup>0){
-				
-				return (powerup+4);
-			}
 			else if(number>0){
 				setIcon(numberImages[number-1]);
 				//For now I just set text showing the number, but it doesn't look as good as if we put images
 				//setIcon(null);
 				//setText(number+"");
 				return 2;
+			}
+			else if(powerup>0){
+				if(powerup==9){
+					setIcon(superSquare);
+				}
+				switch (powerup%3){
+					case 0:
+						setIcon(shieldImage);
+						break;
+					case 1:
+						setIcon(probeImage);
+						break;
+					case 2:
+						setIcon(bonus);
+						break;
+				}
+				return (powerup+4);
 			}
 			else{
 				setIcon(clickedSquareImage);

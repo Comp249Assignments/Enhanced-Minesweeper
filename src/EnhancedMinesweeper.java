@@ -9,7 +9,6 @@ public class EnhancedMinesweeper extends JFrame{
 	private Square squares[][];
 	private DifficultySelector selector = new DifficultySelector();
 	private ImageIcon smileyImage = new ImageIcon("smiley button.png"), winSmileyImage = new ImageIcon("win smiley button.png"), superSaiyan=new ImageIcon("superSaiyan.jpg");
-	private ImageIcon shieldImage=new ImageIcon("shield.png"), probeImage=new ImageIcon("probe.png"),bonus=new ImageIcon("bonus.png") , superSquare=new ImageIcon("superSquare.png");
 	private JPanel p1 = new JPanel(), p2 = new JPanel(), p3=new JPanel();
 	private JLabel mineLabel = new JLabel("000"), timeLabel = new JLabel("000"), livesLabel = new JLabel("Lives: 3"), shieldsLabel=new JLabel("Shields: 0"), probesLabel=new JLabel("Probes: 0");
 	private JButton smiley = new JButton(smileyImage);
@@ -290,24 +289,20 @@ public class EnhancedMinesweeper extends JFrame{
 			lives=999;
 			livesLabel.setText("Lives: "+ lives);
 			smiley.setIcon(superSaiyan);
-			squares[y][x].setIcon(superSquare);
 			return;
 		}
 		
 		switch (type%3){
 			case 0:
 				shields+=3;
-				squares[y][x].setIcon(shieldImage);
 				shieldsLabel.setText("Shields: " + shields);
 				break;
 			case 1:
 				probes++;
-				squares[y][x].setIcon(probeImage);
 				probesLabel.setText("Probes: " + probes);
 				break;
 			case 2:
 				score+=200;
-				squares[y][x].setIcon(bonus);
 				break;
 		}
 	}

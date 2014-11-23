@@ -9,11 +9,11 @@ public class EnhancedMinesweeper extends JFrame{
 	private Square squares[][];
 	private DifficultySelector selector = new DifficultySelector();
 	private ImageIcon smileyImage = new ImageIcon("smiley button.png"), winSmileyImage = new ImageIcon("win smiley button.png");
-	private JPanel p1 = new JPanel(), p2 = new JPanel();
-	private JLabel mineLabel = new JLabel("000"), timeLabel = new JLabel("000"), livesLabel = new JLabel("Lives: 3");
+	private JPanel p1 = new JPanel(), p2 = new JPanel(), p3=new JPanel();
+	private JLabel mineLabel = new JLabel("000"), timeLabel = new JLabel("000"), livesLabel = new JLabel("Lives: 3"), shieldsLabel=new JLabel("Shields: 0"), probesLabel=new JLabel("Probes: 0");
 	private JButton smiley = new JButton(smileyImage);
-	private int mines, lives, height, width, time;
-	private boolean playing, timeGoing;
+	private int mines, lives, height, width, time, shields, probes, score, powerups;
+	private boolean playing, timeGoing, immortality;
 	private Timer timer = new Timer(1000, new timerListener());
 	Random random= new Random();
 	
@@ -34,6 +34,10 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 		int difficulty = selector.getDifficulty();
 		lives=3;
+		shields=0;
+		probes=0;
+		immortality=false;
+		score=0;
 		time=0;
 		playing = true;
 		
@@ -48,11 +52,15 @@ public class EnhancedMinesweeper extends JFrame{
 		p1.add(/*BorderLayout.WEST, */mineLabel);
 		p1.add(/*BorderLayout.CENTER, */smiley);
 		p1.add(/*BorderLayout.EAST, */timeLabel);
+		p3.add(livesLabel);
+		p3.add(shieldsLabel);
+		p3.add(probesLabel);
 		
 		//Btw, in case you get mixed up (I always do) 2D arrays go array[row][column]
 		height = selector.getGridHeight();
 		width = selector.getGridWidth();
 		mines = selector.getMines();
+		powerups = selector.getPowerups();
 		squares = new Square[height][width];
 		p2.setLayout(new GridLayout(height, width));
 		height = 28*height;
@@ -101,8 +109,9 @@ public class EnhancedMinesweeper extends JFrame{
 		//addMouseListener(new mouse());
 		add(BorderLayout.NORTH, p1);
 		add(BorderLayout.CENTER, p2);
-		add(BorderLayout.SOUTH, livesLabel);
+		add(BorderLayout.SOUTH, p3);
 		setMines(mines);
+		setPowerUps(powerups);
 		setNumber();
 		setSize(width, height+50);
 	}
@@ -144,7 +153,7 @@ public class EnhancedMinesweeper extends JFrame{
 	}
 	
 	//for the gift
-	public void setPowerUps(int powerups, int type){
+	public void setPowerUps(int powerups){
 		while (powerups>0){
 			int y=random.nextInt(squares.length);
 			int x=random.nextInt(squares[y].length);
@@ -152,12 +161,13 @@ public class EnhancedMinesweeper extends JFrame{
 				continue;
 			}*/
 			//Will only add a powerup if there is no mine and no powerup there
-			if(squares[y][x].getMines()==0 && !squares[y][x].hasPowerUp()){
-				squares[y][x].addPowerUp(type);
+			if(squares[y][x].getMines()==0 && squares[y][x].hasPowerUp()==0){
+				squares[y][x].addPowerUp(random.nextInt(10));
 				powerups--;
 			}
 		}
 	}
+	
 	
 	//Method that sets the number of adjacent mines for each space
 	public void setNumber(){
@@ -247,10 +257,17 @@ public class EnhancedMinesweeper extends JFrame{
 	//TO DO: Allow the user to start a new game after this and the victory method as well (including the option to change the difficulty setting)
 	//TO DO: When they lose reveal all the mines and rewards. So we also need 16 px by 16 px images for the powerups
 	public void hitMine(){
-		lives--;
+		if (shields>0){
+			shields--;
+			shieldsLabel.setText("Shields: " + shields);
+		}
+		else{
+			lives--;
+			livesLabel.setText("Lives: " + lives);
+		}
 		mines--;
 		updateMineLabel();
-		livesLabel.setText("Lives: " + lives);
+		
 		if(lives==0){
 			JOptionPane.showMessageDialog(null, "GAME OVER\nYou have run out of lives");
 			playing=false;
@@ -258,6 +275,26 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
+	public void implementPowerUp(int type){
+		//if(type==9){
+			//immortality=true;
+			//return;
+		//}
+		
+		switch (type%3){
+			case 0:
+				shields+=3;
+				shieldsLabel.setText("Shields: " + shields);
+				break;
+			case 1:
+				probes++;
+				probesLabel.setText("Probes: " + probes);
+				break;
+			case 2:
+				score+=500;
+				break;
+		}
+	}
 	public void updateMineLabel(){
 		if(mines<10){
 			mineLabel.setText("00"+mines);
@@ -302,11 +339,15 @@ public class EnhancedMinesweeper extends JFrame{
 		mines=selector.getMines();
 		time=0;
 		lives=3;
+		shields=0;
+		probes=0;
 		timer.stop();
 		timeGoing=false;
 		smiley.setIcon(smileyImage);
 		updateMineLabel();
 		timeLabel.setText("000");
+		shieldsLabel.setText("Shields: 0");
+		probesLabel.setText("Probes: 0");
 		livesLabel.setText("Lives: 3");
 		playing=true;
 	}
@@ -333,8 +374,13 @@ public class EnhancedMinesweeper extends JFrame{
 								}
 								else if(type==3)
 									clickAdjacent(x, y);
+								
+								else if(type>=4){
+									implementPowerUp(type-4);
+								}
 								checkWin();
 							}
+							
 						}
 					}
 				}

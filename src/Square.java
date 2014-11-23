@@ -1,17 +1,19 @@
 import javax.swing.*;
 
-public class Square extends JButton{
+public class Square  extends JButton{
 	private int mines, number;
-	private boolean clicked, powerup;
+	private boolean clicked;
+	private int powerup;
 	private ImageIcon squareImage = new ImageIcon("square.png");
 	private ImageIcon clickedSquareImage = new ImageIcon("square clicked.png");
 	private ImageIcon mineImage = new ImageIcon("mine.png");
+	private ImageIcon shieldImage=new ImageIcon();
 	//array of all the images for the different numbers. TO DO: Someone please make all these images and have the right dimensions for them (16 px by 16 px)
 	private ImageIcon[] numberImages = {new ImageIcon("1.png"), new ImageIcon("2.png"), new ImageIcon("3.png"), new ImageIcon("4.png"), new ImageIcon("5.png"), new ImageIcon("6.png"), new ImageIcon("7.png"), new ImageIcon("8.png"), new ImageIcon("9.png"), new ImageIcon("10.png"), new ImageIcon("11.png"), new ImageIcon("12.png"), new ImageIcon("13.png"), new ImageIcon("14.png"), new ImageIcon("15.png"), new ImageIcon("16.png"), new ImageIcon("17.png"), new ImageIcon("18.png"), new ImageIcon("19.png"), new ImageIcon("20.png"), new ImageIcon("21.png"), new ImageIcon("22.png"), new ImageIcon("23.png"), new ImageIcon("24.png")};
 	
 	public Square(){
 		mines=0;
-		powerup=false;
+		powerup=0;
 		clicked=false;
 		//setFont(new Font("Arial", Font.PLAIN, 5));
 		setIcon(squareImage);
@@ -23,7 +25,7 @@ public class Square extends JButton{
 	
 	//TO DO: Implement this method. The integer received will correspond to a type of powerup and one of that powerup will be added
 	public void addPowerUp(int type){
-		powerup=true;
+		powerup=type;
 	}
 	
 	public void setNumber(int number){
@@ -41,8 +43,8 @@ public class Square extends JButton{
 	public int getMines(){
 		return mines;
 	}
-	
-	public boolean hasPowerUp(){
+	 
+	public int hasPowerUp(){
 		return powerup;
 	}
 	
@@ -65,6 +67,11 @@ public class Square extends JButton{
 				setIcon(mineImage);
 				return 1;
 			}
+			else if(powerup>0){
+				//setIcon(shieldIcon);
+				setIcon(clickedSquareImage);
+				return (powerup+4);
+			}
 			else if(number>0){
 				setIcon(numberImages[number-1]);
 				//For now I just set text showing the number, but it doesn't look as good as if we put images
@@ -78,11 +85,11 @@ public class Square extends JButton{
 				return 3;
 			}
 		}
-		return 4;
+		return -1;
 	}
 	
 	public int adjacentClicked(){
-		if(mines==0){
+		if(mines==0 && powerup==0){
 			return clicked();
 		}
 		return 4;

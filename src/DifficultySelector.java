@@ -6,13 +6,14 @@ import javax.swing.*;
 
 public class DifficultySelector extends JFrame{
 	private boolean visible;
-	private int difficulty, height, width, mines;
+	private int difficulty, height, width, mines, powerups;
 	private JRadioButton r1 = new JRadioButton("Easy"), r2 = new JRadioButton("Medium"), r3 = new JRadioButton("Hard"), r4  = new JRadioButton("Custom");
-	private JTextField heightField = new JTextField(10), widthField = new JTextField(10), minesField = new JTextField(10);
+	private JTextField heightField = new JTextField(), widthField = new JTextField(10), minesField = new JTextField(10);
 	private JLabel heightLabel = new JLabel("Height", SwingConstants.RIGHT), widthLabel = new JLabel("Width", SwingConstants.RIGHT), minesLabel = new JLabel("Mines", SwingConstants.RIGHT);
 	private JButton okButton = new JButton("Ok");
 	private ButtonGroup buttonGroup = new ButtonGroup();
 	private JPanel p1 = new JPanel(), p2 = new JPanel();
+	
 	
 	public DifficultySelector(){
 		setLayout(new BorderLayout());
@@ -65,6 +66,10 @@ public class DifficultySelector extends JFrame{
 	public int getMines(){
 		return mines;
 	}
+	public int getPowerups(){
+		return powerups;
+	}
+	
 	
 	class buttonListener implements ActionListener{
 		@Override
@@ -76,6 +81,7 @@ public class DifficultySelector extends JFrame{
 				height=10;
 				width=10;
 				mines=10;
+				powerups=3;
 				visible=false;
 			}
 			else if(r2.isSelected()){
@@ -83,6 +89,7 @@ public class DifficultySelector extends JFrame{
 				height=16;
 				width=16;
 				mines=40;
+				powerups=4;
 				visible=false;
 			}
 			else if(r3.isSelected()){
@@ -90,6 +97,7 @@ public class DifficultySelector extends JFrame{
 				height=16;
 				width=30;
 				mines=99;
+				powerups=5;
 				visible=false;
 			}
 			else{

@@ -4,27 +4,27 @@ import java.util.*;
 
 import javax.swing.*;
 import javax.swing.Timer;
+import javax.swing.event.*;
 
 public class EnhancedMinesweeper extends JFrame{
 	private Square squares[][];
 	private DifficultySelector selector = new DifficultySelector();
 	private ImageIcon smileyImage = new ImageIcon("smiley button.png"), winSmileyImage = new ImageIcon("win smiley button.png"), superSaiyan=new ImageIcon("superSaiyan.jpg");
-	private JPanel p1 = new JPanel(), p2 = new JPanel(), p3=new JPanel();
+	private JPanel p1 = new JPanel(), p2 = new JPanel(), p3=new JPanel(), p4 = new JPanel();
 	private JLabel mineLabel = new JLabel("000"), timeLabel = new JLabel("000"), livesLabel = new JLabel("Lives: 3"), shieldsLabel=new JLabel("Shields: 0"), probesLabel=new JLabel("Probes: 0");
 	private JButton smiley = new JButton(smileyImage);
+	private JMenuBar menubar = new JMenuBar();
+	private JMenu file = new JMenu("File"), game = new JMenu("Game");
+	private JMenuItem save = new JMenuItem("Save"), load = new JMenuItem("Load"), exit = new JMenuItem("Exit"), newGame = new JMenuItem("New Game"), reset = new JMenuItem("Reset"), highscore= new JMenuItem("Highscore");
 	private int mines, lives, height, width, time, shields, probes, score, powerups;
 	private boolean playing, timeGoing, immortality;
 	private Timer timer = new Timer(1000, new timerListener());
 	Random random= new Random();
 	
-	//TO DO: fix up the GUI to have a score (will that be based on time? That's how classic minesweeper does it, so I say we should do that. And the bonus score thing will just
+	//TODO: fix up the GUI to have a score (will that be based on time? That's how classic minesweeper does it, so I say we should do that. And the bonus score thing will just
 	//subtract some of the time) as well as the number of mines. Maybe also have a button to restart (and then we would also need a restart method). Also a counter for the
 	//number of probes along with a button to use the probe, I guess? (or probed could be used by pushing a button and then clicking. Let me know if that's how you want to
 	//implement it and I'll do it. It's really easy to do). Also need save and load buttons (or they could be in a tool bar at the top. That would make it look nicer for sure)
-	
-	//TO DO: Add save and load stuff
-	
-	//TO DO: Implement powerups
 	
 	public EnhancedMinesweeper(){
 		timeGoing=false;
@@ -45,15 +45,33 @@ public class EnhancedMinesweeper extends JFrame{
 		
 		setLayout(new BorderLayout());
 		
-		//TO DO: Make the top panel look better
+		//TODO: Make the top panel look better
 		smiley.setPreferredSize(new Dimension(27, 27));
 		smiley.addActionListener(new buttonListener());
 		
+		file.add(save);
+		file.add(load);
+		file.add(exit);
+		game.add(newGame);
+		game.add(highscore);
+		game.add(reset);
+		menubar.add(file);
+		menubar.add(game);
+		save.addActionListener(new menuListener());
+		load.addActionListener(new menuListener());
+		exit.addActionListener(new menuListener());
+		newGame.addActionListener(new menuListener());
+		highscore.addActionListener(new menuListener());
+		//add(menubar/*, BorderLayout.PAGE_START*/);
+		
 		//p1.setLayout(new GridLayout(1, 3));
 		//p1.setLayout(new BorderLayout());
+		p4.setLayout(new BorderLayout());
 		p1.add(/*BorderLayout.WEST, */mineLabel);
 		p1.add(/*BorderLayout.CENTER, */smiley);
 		p1.add(/*BorderLayout.EAST, */timeLabel);
+		p4.add(menubar, BorderLayout.PAGE_START);
+		p4.add(p1, BorderLayout.CENTER);
 		p3.add(livesLabel);
 		p3.add(shieldsLabel);
 		p3.add(probesLabel);
@@ -110,13 +128,13 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 		//addMouseListener(new mouse());
-		add(BorderLayout.NORTH, p1);
+		add(BorderLayout.NORTH, p4);
 		add(BorderLayout.CENTER, p2);
 		add(BorderLayout.SOUTH, p3);
 		setMines(mines);
 		setPowerUps(powerups);
 		setNumber();
-		setSize(width, height+50);
+		setSize(width, height+75);
 	}
 	
 	public static void main(String[] args) {
@@ -259,8 +277,8 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	//TO DO: Allow the user to start a new game after this and the victory method as well (including the option to change the difficulty setting)
-	//TO DO: When they lose reveal all the mines and rewards. So we also need 16 px by 16 px images for the powerups
+	//TODO: Allow the user to start a new game after this and the victory method as well (including the option to change the difficulty setting)
+	//TODO: When they lose reveal all the mines and rewards. So we also need 16 px by 16 px images for the powerups
 	public void hitMine(){
 		score-=120;
 		if(!immortality){
@@ -321,7 +339,7 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	//TO DO: Let the user start a new game after this
+	//TODO: Let the user start a new game after this
 	//Method that checks if the game has been won (everything that is not a mine has been clicked) and if so, displays a victory message
 	public void checkWin(){
 		boolean won=true;
@@ -339,9 +357,9 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	//TO DO: Implement high scores
+	//TODO: Implement high scores
 	
-	//TO DO: reset method should actually change the layout of everything
+	//TODO: reset method should actually change the layout of everything
 	public void reset(){
 		for(int y=0; y<squares.length; y++){
 			for(int x=0; x<squares[y].length; x++){
@@ -362,6 +380,25 @@ public class EnhancedMinesweeper extends JFrame{
 		probesLabel.setText("Probes: 0");
 		livesLabel.setText("Lives: 3");
 		playing=true;
+	}
+	
+	//TODO: implement this method
+	public void save(){
+		
+	}
+	
+	//TODO: implement this method
+	public void load(){
+		
+	}
+	
+	public void exit(){
+		System.exit(0);
+	}
+	
+	//TODO: implement this method
+	public void newGame(){
+		
 	}
 	
 	class handleRight implements MouseListener{
@@ -425,6 +462,30 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
+	class menuListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource()==save){
+				save();
+			}
+			else if(e.getSource()==load){
+				load();
+			}
+			else if(e.getSource()==exit){
+				exit();
+			}
+			else if(e.getSource()==newGame){
+				newGame();
+			}
+			else if(e.getSource()==reset){
+				reset();
+			}
+			else if(e.getSource()==highscore){
+				
+			}
+		}
+	}
+	
 	class timerListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -443,48 +504,4 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 	}
-	
-	//TO DO: Implement right clicking to flag something as having a mine (maybe also to flag something as having 2 or 3 mines. Idk how to check a right click. Probably isn't too complicated
-	/*class mouse implements MouseListener{
-
-		@Override
-		public void mouseClicked(MouseEvent m) {
-			if(playing){
-				//There's some empty space at the top and bottom, so the numbers I subtract fix that
-				//TO DO: Test on other difficulties
-				//ERROR: Doesn't work on other difficulties
-				int x = (m.getX()-9)/16;
-				int y = (m.getY()-35)/16;
-				System.out.println(x + " " + m.getX());
-				System.out.println(y + " " + m.getY());
-				int type = squares[y][x].clicked();
-				if(type==1){
-					hitMine();
-				}
-				else if(type==3)
-					clickAdjacent(x, y);
-				checkWin();
-			}
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent m) {
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent m) {
-			
-		}
-
-		@Override
-		public void mousePressed(MouseEvent m) {
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent m) {
-			
-		}
-	}*/
 }

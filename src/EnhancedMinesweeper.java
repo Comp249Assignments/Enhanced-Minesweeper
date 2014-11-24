@@ -21,11 +21,6 @@ public class EnhancedMinesweeper extends JFrame{
 	private Timer timer = new Timer(1000, new timerListener());
 	Random random= new Random();
 	
-	//TODO: fix up the GUI to have a score (will that be based on time? That's how classic minesweeper does it, so I say we should do that. And the bonus score thing will just
-	//subtract some of the time) as well as the number of mines. Maybe also have a button to restart (and then we would also need a restart method). Also a counter for the
-	//number of probes along with a button to use the probe, I guess? (or probed could be used by pushing a button and then clicking. Let me know if that's how you want to
-	//implement it and I'll do it. It's really easy to do). Also need save and load buttons (or they could be in a tool bar at the top. That would make it look nicer for sure)
-	
 	public EnhancedMinesweeper(){
 		timeGoing=false;
 		//makes sure a difficulty has been selected before moving on

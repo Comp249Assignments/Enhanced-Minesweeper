@@ -40,6 +40,7 @@ public class EnhancedMinesweeper extends JFrame{
 		
 		setLayout(new BorderLayout());
 		
+		//TODO: Make the mine count decrease when putting a flag
 		//TODO: Make the top panel look better
 		smiley.setPreferredSize(new Dimension(27, 27));
 		smiley.addActionListener(new buttonListener());

@@ -39,7 +39,6 @@ public class EnhancedMinesweeper extends JFrame{
 		playing = true;
 		score=0;
 		
-		
 		setLayout(new BorderLayout());
 		
 		//TODO: Make the mine count decrease when putting a flag
@@ -307,19 +306,20 @@ public class EnhancedMinesweeper extends JFrame{
 			smiley.setIcon(superSaiyan);
 			return;
 		}
-		
-		switch (type%3){
-			case 0:
-				shields+=3;
-				shieldsLabel.setText("Shields: " + shields);
-				break;
-			case 1:
-				probes++;
-				probesLabel.setText("Probes: " + probes);
-				break;
-			case 2:
-				score+=200;
-				break;
+		else{
+			switch (type%3){
+				case 0:
+					shields+=3;
+					shieldsLabel.setText("Shields: " + shields);
+					break;
+				case 1:
+					probes++;
+					probesLabel.setText("Probes: " + probes);
+					break;
+				case 2:
+					score+=200;
+					break;
+			}
 		}
 	}
 	public void updateMineLabel(){

@@ -19,6 +19,8 @@ public class EnhancedMinesweeper extends JFrame{
 	private int mines, lives, height, width, time, shields, probes, score, powerups;
 	private boolean playing, timeGoing, immortality;
 	private Timer timer = new Timer(1000, new timerListener());
+	private  LinkedList<String> highScorers=new LinkedList();
+	private  LinkedList<Integer> highScores=new LinkedList();
 	Random random= new Random();
 	
 	public EnhancedMinesweeper(){
@@ -134,7 +136,7 @@ public class EnhancedMinesweeper extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		HighScoreBoard k=new HighScoreBoard();
+		
 		EnhancedMinesweeper frame = new EnhancedMinesweeper();
 		frame.setTitle("Enhanced Minesweeper");
 		//I like these dimensions for easy mode, but feel free to play around with them if you can find better ones
@@ -350,10 +352,44 @@ public class EnhancedMinesweeper extends JFrame{
 			score=score*selector.getDifficulty()-time;
 			smiley.setIcon(winSmileyImage);
 			JOptionPane.showMessageDialog(null, "You won!\nyour score is: "+ score);
+			Thread t=new Thread(new buttonListener());
+			t.start();
 		}
 	}
 	
 	//TODO: Implement high scores
+	public  void highScore(){
+		if(load()==0){
+			for(int i=0;i<10;i++){
+				highScorers.add("empty");
+				highScores.add(0);
+			}
+		}
+		
+		
+			for(int i=9;i>0;i--){
+
+				if(score>highScores.get(i)&&score<=highScores.get(i-1)){
+					HighScoreBoard highScoreInput=new HighScoreBoard(score);
+
+					highScores.add(i,score);
+					highScorers.add(i,highScoreInput.getUserName());
+					highScorers.remove(10);
+					highScores.remove(10);
+				}
+			}
+			if(score>highScores.get(0)){
+				HighScoreBoard highScoreInput=new HighScoreBoard(score);
+				highScores.add(0,score);
+				highScorers.add(0,highScoreInput.getUserName());
+				highScorers.remove(10);
+				highScores.remove(10);
+			}
+			
+		
+		
+		HighScoreBoard highScoreBoard=new HighScoreBoard(highScorers, highScores);
+	}
 	
 	//TODO: reset method should actually change the layout of everything
 	public void reset(){
@@ -418,8 +454,12 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	class buttonListener implements ActionListener{
+	class buttonListener implements ActionListener, Runnable{
 		@Override
+		
+		public void run(){
+			highScore();
+		}
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==smiley){
 				reset();

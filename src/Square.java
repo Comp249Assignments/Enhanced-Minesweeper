@@ -100,16 +100,18 @@ public class Square  extends JButton{
 				if(powerup==9){
 					setIcon(superSquare);
 				}
-				switch (powerup%3){
-					case 0:
-						setIcon(shieldImage);
-						break;
-					case 1:
-						setIcon(probeImage);
-						break;
-					case 2:
-						setIcon(bonus);
-						break;
+				else{
+					switch (powerup%3){
+						case 0:
+							setIcon(shieldImage);
+							break;
+						case 1:
+							setIcon(probeImage);
+							break;
+						case 2:
+							setIcon(bonus);
+							break;
+					}
 				}
 				return (powerup+4);
 			}

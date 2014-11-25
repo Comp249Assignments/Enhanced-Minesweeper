@@ -33,8 +33,7 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 		}
 		
 		add(BorderLayout.WEST,p1);
-		//add(BorderLayout.WEST,p2);
-		
+		okButton.addActionListener(this);
 		add(BorderLayout.SOUTH,okButton);
 		this.pack();
 
@@ -44,7 +43,7 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 	public HighScoreBoard(int score){
 		this.setTitle("Congradulations");
 		this.setLayout(new BorderLayout());
-		p1.setLayout(new GridLayout(2,1));
+		p1.setLayout(new GridLayout(3,1));
 		this.setLocationRelativeTo(null);
 		this.setSize(300,150);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

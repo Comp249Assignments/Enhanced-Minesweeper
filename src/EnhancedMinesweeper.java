@@ -409,6 +409,11 @@ public class EnhancedMinesweeper extends JFrame{
 		public void mouseClicked(MouseEvent e){
 			if(SwingUtilities.isRightMouseButton(e)|| e.isControlDown() ){
 					 ((Square)e.getSource()).flag();
+					 if( ((Square)e.getSource()).getFlags()==0)
+						 mines+=4;
+					 mines--;
+						 
+					mineLabel.setText(""+mines);
 			}
 		}
 	}

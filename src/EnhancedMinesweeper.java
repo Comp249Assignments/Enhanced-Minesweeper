@@ -436,7 +436,7 @@ public class EnhancedMinesweeper extends JFrame{
 								}
 								
 								int type = squares[y][x].clicked();
-								if(squares[y][x].getFlagged()&&probes>0){
+								if(squares[y][x].getFlags>0&&probes>0){
 									probes--;
 									probesLabel.setText("Probes: " + probes);
 									if(type==1){

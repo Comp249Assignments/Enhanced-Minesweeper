@@ -126,9 +126,9 @@ public class Square  extends JButton{
 	
 	
 	public int adjacentClicked(){
-		if(mines==0 && powerup==0){
+		if(mines==0){
 			return clicked();
 		}
-		return 4;
+		return 2;
 	}
 }

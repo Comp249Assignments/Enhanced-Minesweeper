@@ -23,6 +23,8 @@ public class EnhancedMinesweeper extends JFrame{
 	private  LinkedList<Integer> highScores=new LinkedList();
 	Random random= new Random();
 	
+	//TODO: Make the images for the powerups change back to normal squares after a few seconds
+	
 	public EnhancedMinesweeper(){
 		timeGoing=false;
 		//makes sure a difficulty has been selected before moving on
@@ -41,7 +43,7 @@ public class EnhancedMinesweeper extends JFrame{
 		
 		setLayout(new BorderLayout());
 		
-		//TODO: Make the mine count decrease when putting a flag
+		//TODO: Make the mine count decrease when putting a flag. Done, but needs to be fixed
 		//TODO: Make the top panel look better
 		smiley.setPreferredSize(new Dimension(27, 27));
 		smiley.addActionListener(new buttonListener());
@@ -233,43 +235,69 @@ public class EnhancedMinesweeper extends JFrame{
 		}*/
 	}
 	
+	//TODO: Add custom powerups thing
+	
 	//If you click an empty space this will clear out all adjacent empty spaces
-	//ERROR: Adjacent click won't click something if it's a powerup
 	public void clickAdjacent(int x, int y){
+		int click=0;
 		//Checks spaces above current space
 		if(y>0){
-			if(squares[y-1][x].adjacentClicked()==3)
+			click=squares[y-1][x].adjacentClicked();
+			if(click>=4)
+				implementPowerUp(click-4, x, y-1);
+			if(click!=2&&click!=-1)
 				clickAdjacent(x, y-1);
 			if(x>0){
-				if(squares[y-1][x-1].adjacentClicked()==3)
+				click=squares[y-1][x-1].adjacentClicked();
+				if(click>=4)
+					implementPowerUp(click-4, x-1, y-1);
+				if(click!=2&&click!=-1)
 					clickAdjacent(x-1, y-1);
 			}
 			if(x<squares[y].length-1){
-				if(squares[y-1][x+1].adjacentClicked()==3)
+				click=squares[y-1][x+1].adjacentClicked();
+				if(click>=4)
+					implementPowerUp(click-4, x+1, y-1);
+				if(click!=2&&click!=-1)
 					clickAdjacent(x+1, y-1);
 			}
 		}
 		//Checks spaces below
 		if(y<squares.length-1){
-			if(squares[y+1][x].adjacentClicked()==3)
+			click=squares[y+1][x].adjacentClicked();
+			if(click>=4)
+				implementPowerUp(click-4, x, y+1);
+			if(click!=2&&click!=-1)
 				clickAdjacent(x, y+1);
 			if(x>0){
-				if(squares[y+1][x-1].adjacentClicked()==3)
+				click=squares[y+1][x-1].adjacentClicked();
+				if(click>=4)
+					implementPowerUp(click-4, x-1, y+1);
+				if(click!=2&&click!=-1)
 					clickAdjacent(x-1, y+1);
 			}
 			if(x<squares[y].length-1){
-				if(squares[y+1][x+1].adjacentClicked()==3)
+				click=squares[y+1][x+1].adjacentClicked();
+				if(click>=4)
+					implementPowerUp(click-4, x+1, y+1);
+				if(click!=2&&click!=-1)
 					clickAdjacent(x+1, y+1);
 			}
 		}
 		//Checks space to the left
 		if(x>0){
-			if(squares[y][x-1].adjacentClicked()==3)
+			click=squares[y][x-1].adjacentClicked();
+			if(click>=4)
+				implementPowerUp(click-4, x-1, y);
+			if(click!=2&&click!=-1)
 				clickAdjacent(x-1, y);
 		}
 		//Checks space to the right
 		if(x<squares[y].length-1){
-			if(squares[y][x+1].adjacentClicked()==3)
+			click=squares[y][x+1].adjacentClicked();
+			if(click>=4)
+				implementPowerUp(click-4, x+1, y);
+			if(click!=2&&click!=-1)
 				clickAdjacent(x+1, y);
 		}
 	}
@@ -443,13 +471,13 @@ public class EnhancedMinesweeper extends JFrame{
 		public void mouseExited(MouseEvent e){}
 		
 		public void mouseClicked(MouseEvent e){
-			if(SwingUtilities.isRightMouseButton(e)|| e.isControlDown() ){
-					 ((Square)e.getSource()).flag();
-					 if( ((Square)e.getSource()).getFlags()==0)
-						 mines+=4;
-					 mines--;
-						 
-					mineLabel.setText(""+mines);
+			if((SwingUtilities.isRightMouseButton(e)|| e.isControlDown())&&playing){
+				((Square)e.getSource()).flag();
+				if( ((Square)e.getSource()).getFlags()==0)
+					 mines+=4;
+				mines--;
+				
+				updateMineLabel();
 			}
 		}
 	}

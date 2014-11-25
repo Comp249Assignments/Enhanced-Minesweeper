@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class Square  extends JButton{
 	private int mines, number, flags;
-	private boolean clicked,flagged;
+	private boolean clicked;
 	private int powerup;
 	private ImageIcon squareImage = new ImageIcon("square.png");
 	private ImageIcon clickedSquareImage = new ImageIcon("square clicked.png");
@@ -17,7 +17,6 @@ public class Square  extends JButton{
 		mines=0;
 		powerup=0;
 		clicked=false;
-		flagged=false;
 		flags=0;
 		//setFont(new Font("Arial", Font.PLAIN, 5));
 		setIcon(squareImage);
@@ -59,20 +58,17 @@ public class Square  extends JButton{
 	public boolean isClicked(){
 		return clicked;
 	}
-	
-	public boolean getFlagged(){
-		return flagged;
+	public int getFlags(){
+		return flags;
 	}
 	
 	public void flag(){
 		if(flags==3){
 			setIcon(squareImage);
-			flagged=false;
 			flags=0;
 		}
 		else{
 			flags++;
-			flagged=true;
 			setIcon(flagImages[flags-1]);
 		}
 		/*flagged=!flagged;

@@ -131,4 +131,29 @@ public class Square  extends JButton{
 		}
 		return 2;
 	}
+	
+	//method to reveal this space if it is a mine or powerup
+	public void reveal(){
+		if(mines>0){
+			setIcon(mineImages[mines-1]);
+		}
+		else if(powerup>0){
+			if(powerup==9){
+				setIcon(superSquare);
+			}
+			else{
+				switch (powerup%3){
+					case 0:
+						setIcon(shieldImage);
+						break;
+					case 1:
+						setIcon(probeImage);
+						break;
+					case 2:
+						setIcon(bonus);
+						break;
+				}
+			}
+		}
+	}
 }

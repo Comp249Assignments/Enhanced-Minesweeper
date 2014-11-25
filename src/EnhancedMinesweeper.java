@@ -320,6 +320,7 @@ public class EnhancedMinesweeper extends JFrame{
 		updateMineLabel();
 		
 		if(lives==0){
+			revealAll();
 			JOptionPane.showMessageDialog(null, "GAME OVER\nYou have run out of lives");
 			playing=false;
 			timer.stop();
@@ -376,10 +377,12 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 		if(won){
+			revealAll();
 			playing=false;
 			score=score*selector.getDifficulty()-time;
 			smiley.setIcon(winSmileyImage);
 			JOptionPane.showMessageDialog(null, "You won!\nyour score is: "+ score);
+			//TODO: Find out what this is
 			Thread t=new Thread(new buttonListener());
 			t.start();
 		}
@@ -459,6 +462,14 @@ public class EnhancedMinesweeper extends JFrame{
 	//TODO: implement this method
 	public void newGame(){
 		
+	}
+	
+	public void revealAll(){
+		for(int y=0; y<squares.length; y++){
+			for(int x=0; x<squares[y].length; x++){
+				squares[y][x].reveal();
+			}
+		}
 	}
 	
 	class handleRight implements MouseListener{

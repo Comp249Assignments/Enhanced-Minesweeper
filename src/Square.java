@@ -3,7 +3,7 @@ import javax.swing.*;
 public class Square  extends JButton{
 	private int mines, number, flags;
 	private boolean clicked;
-	private int powerup;
+	private int powerup, powerUpDelay;
 	private ImageIcon squareImage = new ImageIcon("square.png");
 	private ImageIcon clickedSquareImage = new ImageIcon("square clicked.png");
 	private ImageIcon shieldImage=new ImageIcon("shield.png"), probeImage=new ImageIcon("probe.png"),bonus=new ImageIcon("bonus.png") , superSquare=new ImageIcon("superSquare.png");
@@ -18,6 +18,7 @@ public class Square  extends JButton{
 		powerup=0;
 		clicked=false;
 		flags=0;
+		powerUpDelay=0;
 		//setFont(new Font("Arial", Font.PLAIN, 5));
 		setIcon(squareImage);
 	}
@@ -99,8 +100,10 @@ public class Square  extends JButton{
 			else if(powerup>0){
 				if(powerup==9){
 					setIcon(superSquare);
+					powerUpDelay++;
 				}
 				else{
+					powerUpDelay++;
 					switch (powerup%3){
 						case 0:
 							setIcon(shieldImage);
@@ -154,6 +157,18 @@ public class Square  extends JButton{
 						break;
 				}
 			}
+		}
+	}
+	
+	public void updatePowerUpImage(){
+		if(powerUpDelay==3){
+			if(number>0)
+				setIcon(numberImages[number-1]);
+			else
+				setIcon(clickedSquareImage);
+		}
+		else if(powerUpDelay>0){
+			powerUpDelay++;
 		}
 	}
 }

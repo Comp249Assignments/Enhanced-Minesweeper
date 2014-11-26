@@ -41,13 +41,13 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 	}
 	
 	public HighScoreBoard(int score){
-		this.setTitle("Congradulations");
+		this.setTitle("Congratulations");
 		this.setLayout(new BorderLayout());
 		p1.setLayout(new GridLayout(3,1));
 		this.setLocationRelativeTo(null);
 		this.setSize(300,150);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		messageLabel=new JLabel("Congradulations you have a high score of:\n " +score,SwingConstants.LEFT);
+		messageLabel=new JLabel("Congratulations, you have a high score of:\n " +score,SwingConstants.LEFT);
 		enterLabel=new JLabel("Please enter your name",SwingConstants.LEFT);
 		p1.add(messageLabel);
 		p1.add(enterLabel);

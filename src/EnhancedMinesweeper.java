@@ -564,6 +564,11 @@ public class EnhancedMinesweeper extends JFrame{
 	class timerListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			for(int y=0; y<squares.length; y++){
+				for(int x=0; x<squares[y].length; x++){
+					squares[y][x].updatePowerUpImage();
+				}
+			}
 			time++;
 			if(time<10){
 				timeLabel.setText("00"+time);

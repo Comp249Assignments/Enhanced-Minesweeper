@@ -19,7 +19,6 @@ public class Square  extends JButton{
 		clicked=false;
 		flags=0;
 		powerUpDelay=0;
-		//setFont(new Font("Arial", Font.PLAIN, 5));
 		setIcon(squareImage);
 	}
 	
@@ -161,14 +160,24 @@ public class Square  extends JButton{
 	}
 	
 	public void updatePowerUpImage(){
-		if(powerUpDelay==3){
+		if(powerUpDelay==4){
 			if(number>0)
 				setIcon(numberImages[number-1]);
 			else
 				setIcon(clickedSquareImage);
+			powerUpDelay=0;
 		}
 		else if(powerUpDelay>0){
 			powerUpDelay++;
 		}
+	}
+	
+	public void reset(){
+		mines=0;
+		powerup=0;
+		clicked=false;
+		flags=0;
+		powerUpDelay=0;
+		setIcon(squareImage);
 	}
 }

@@ -418,7 +418,7 @@ public class EnhancedMinesweeper extends JFrame{
 	}
 	
 	//TODO: reset method should actually change the layout of everything
-	public void reset(){
+	/*public void reset(){
 		for(int y=0; y<squares.length; y++){
 			for(int x=0; x<squares[y].length; x++){
 				squares[y][x].setClicked(false);
@@ -438,6 +438,33 @@ public class EnhancedMinesweeper extends JFrame{
 		probesLabel.setText("Probes: 0");
 		livesLabel.setText("Lives: 3");
 		playing=true;
+	}*/
+	
+	public void reset(){
+		//Initialize all the square objects and add them to the frame
+		for(int y=0; y<squares.length; y++){
+			for(int x=0; x<squares[y].length; x++){
+				squares[y][x].reset();
+			}
+		}
+		mines=selector.getMines();
+		powerups=selector.getPowerups();
+		time=0;
+		lives=3;
+		shields=0;
+		probes=0;
+		timer.stop();
+		timeGoing=false;
+		smiley.setIcon(smileyImage);
+		updateMineLabel();
+		timeLabel.setText("000");
+		shieldsLabel.setText("Shields: 0");
+		probesLabel.setText("Probes: 0");
+		livesLabel.setText("Lives: 3");
+		playing=true;
+		setMines(mines);
+		setPowerUps(powerups);
+		setNumber();
 	}
 	
 	//TODO: implement this method

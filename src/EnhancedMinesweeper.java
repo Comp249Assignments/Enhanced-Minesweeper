@@ -173,7 +173,7 @@ public class EnhancedMinesweeper extends JFrame{
 		System.out.println();*/
 	}
 	
-	//for the gift
+	//Randomly places all the powerups. Receives number of powerups and picks randomly which type it'll be
 	public void setPowerUps(int powerups){
 		while (powerups>0){
 			int y=random.nextInt(squares.length);
@@ -303,7 +303,6 @@ public class EnhancedMinesweeper extends JFrame{
 	}
 	
 	//TODO: Allow the user to start a new game after this and the victory method as well (including the option to change the difficulty setting)
-	//TODO: When they lose reveal all the mines and rewards. So we also need 16 px by 16 px images for the powerups
 	public void hitMine(){
 		score-=120;
 		if(!immortality){
@@ -367,7 +366,7 @@ public class EnhancedMinesweeper extends JFrame{
 	}
 	
 	//TODO: Let the user start a new game after this
-	//Method that checks if the game has been won (everything that is not a mine has been clicked) and if so, displays a victory message
+	//Method that checks if the game has been won (everything that is not a mine has been clicked) and if so, displays a victory message and records the highscore
 	public void checkWin(){
 		boolean won=true;
 		for(int y=0; y<squares.length; y++){
@@ -397,27 +396,23 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 		
-		
-			for(int i=9;i>0;i--){
-
-				if(score>highScores.get(i)&&score<=highScores.get(i-1)){
-					HighScoreBoard highScoreInput=new HighScoreBoard(score);
-
-					highScores.add(i,score);
-					highScorers.add(i,highScoreInput.getUserName());
-					highScorers.remove(10);
-					highScores.remove(10);
-				}
-			}
-			if(score>highScores.get(0)){
+		for(int i=9;i>0;i--){
+			if(score>highScores.get(i)&&score<=highScores.get(i-1)){
 				HighScoreBoard highScoreInput=new HighScoreBoard(score);
-				highScores.add(0,score);
-				highScorers.add(0,highScoreInput.getUserName());
+				
+				highScores.add(i,score);
+				highScorers.add(i,highScoreInput.getUserName());
 				highScorers.remove(10);
 				highScores.remove(10);
 			}
-			
-		
+		}
+		if(score>highScores.get(0)){
+			HighScoreBoard highScoreInput=new HighScoreBoard(score);
+			highScores.add(0,score);
+			highScorers.add(0,highScoreInput.getUserName());
+			highScorers.remove(10);
+			highScores.remove(10);
+		}
 		
 		HighScoreBoard highScoreBoard=new HighScoreBoard(highScorers, highScores);
 	}

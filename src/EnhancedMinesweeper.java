@@ -17,18 +17,17 @@ public class EnhancedMinesweeper extends JFrame{
 	private JMenu file = new JMenu("File"), game = new JMenu("Game");
 	private JMenuItem save = new JMenuItem("Save"), load = new JMenuItem("Load"), exit = new JMenuItem("Exit"), newGame = new JMenuItem("New Game"), reset = new JMenuItem("Reset"), highscore= new JMenuItem("Highscore");
 	private int mines, lives, height, width, time, shields, probes, score, powerups;
-	private boolean playing, timeGoing, immortality;
+	private boolean playing, timeGoing, immortality, startNewGame;
 	private Timer timer = new Timer(1000, new timerListener());
 	private  LinkedList<String> highScorers=new LinkedList();
 	private  LinkedList<Integer> highScores=new LinkedList();
 	Random random= new Random();
 	
-	//TODO: Make the images for the powerups change back to normal squares after a few seconds
-	
 	public EnhancedMinesweeper(){
 		timeGoing=false;
+		startNewGame=false;
 		//makes sure a difficulty has been selected before moving on
-		while(selector.isVisible()){
+		/*while(selector.isVisible()){
 			
 		}
 		int difficulty = selector.getDifficulty();
@@ -38,8 +37,7 @@ public class EnhancedMinesweeper extends JFrame{
 		immortality=false;
 		score=0;
 		time=0;
-		playing = true;
-		score=0;
+		playing = true;*/
 		
 		setLayout(new BorderLayout());
 		
@@ -61,29 +59,28 @@ public class EnhancedMinesweeper extends JFrame{
 		exit.addActionListener(new menuListener());
 		newGame.addActionListener(new menuListener());
 		highscore.addActionListener(new menuListener());
-		//add(menubar/*, BorderLayout.PAGE_START*/);
 		
-		//p1.setLayout(new GridLayout(1, 3));
-		//p1.setLayout(new BorderLayout());
 		p4.setLayout(new BorderLayout());
-		p1.add(/*BorderLayout.WEST, */mineLabel);
-		p1.add(/*BorderLayout.CENTER, */smiley);
-		p1.add(/*BorderLayout.EAST, */timeLabel);
+		p1.add(mineLabel);
+		p1.add(smiley);
+		p1.add(timeLabel);
 		p4.add(menubar, BorderLayout.PAGE_START);
 		p4.add(p1, BorderLayout.CENTER);
 		p3.add(livesLabel);
 		p3.add(shieldsLabel);
 		p3.add(probesLabel);
 		
+		newGame();
+		
 		//Btw, in case you get mixed up (I always do) 2D arrays go array[row][column]
-		height = selector.getGridHeight();
+		/*height = selector.getGridHeight();
 		width = selector.getGridWidth();
 		mines = selector.getMines();
 		powerups = selector.getPowerups();
 		squares = new Square[height][width];
 		p2.setLayout(new GridLayout(height, width));
 		height = 28*height;
-		width = 25*width;
+		width = 25*width;*/
 		
 		/*if(difficulty==1){
 			squares = new Square[9][9];
@@ -118,7 +115,7 @@ public class EnhancedMinesweeper extends JFrame{
 		}*/
 		
 		//Initialize all the square objects and add them to the frame
-		for(int y=0; y<squares.length; y++){
+		/*for(int y=0; y<squares.length; y++){
 			for(int x=0; x<squares[y].length; x++){
 				squares[y][x] = new Square();
 				squares[y][x].addActionListener(new buttonListener());
@@ -133,15 +130,13 @@ public class EnhancedMinesweeper extends JFrame{
 		setMines(mines);
 		setPowerUps(powerups);
 		setNumber();
-		setSize(width, height+75);
+		setSize(width, height+75);*/
 	}
 	
 	public static void main(String[] args) {
 		
 		EnhancedMinesweeper frame = new EnhancedMinesweeper();
 		frame.setTitle("Enhanced Minesweeper");
-		//I like these dimensions for easy mode, but feel free to play around with them if you can find better ones
-		//frame.setSize(width, height);
 		frame.setLocationRelativeTo(null); // Center the frame   
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -302,7 +297,6 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	//TODO: Allow the user to start a new game after this and the victory method as well (including the option to change the difficulty setting)
 	public void hitMine(){
 		score-=120;
 		if(!immortality){
@@ -323,6 +317,7 @@ public class EnhancedMinesweeper extends JFrame{
 			JOptionPane.showMessageDialog(null, "GAME OVER\nYou have run out of lives");
 			playing=false;
 			timer.stop();
+			askNewGame();
 		}
 	}
 	
@@ -365,7 +360,6 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	//TODO: Let the user start a new game after this
 	//Method that checks if the game has been won (everything that is not a mine has been clicked) and if so, displays a victory message and records the highscore
 	public void checkWin(){
 		boolean won=true;
@@ -381,7 +375,6 @@ public class EnhancedMinesweeper extends JFrame{
 			score=score*selector.getDifficulty()-time;
 			smiley.setIcon(winSmileyImage);
 			JOptionPane.showMessageDialog(null, "You won!\nyour score is: "+ score);
-			//TODO: Find out what this is
 			Thread t=new Thread(new buttonListener());
 			t.start();
 		}
@@ -415,30 +408,9 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 		
 		HighScoreBoard highScoreBoard=new HighScoreBoard(highScorers, highScores);
+		while(highScoreBoard.isVisible());
+		askNewGame();
 	}
-	
-	//TODO: reset method should actually change the layout of everything
-	/*public void reset(){
-		for(int y=0; y<squares.length; y++){
-			for(int x=0; x<squares[y].length; x++){
-				squares[y][x].setClicked(false);
-			}
-		}
-		mines=selector.getMines();
-		time=0;
-		lives=3;
-		shields=0;
-		probes=0;
-		timer.stop();
-		timeGoing=false;
-		smiley.setIcon(smileyImage);
-		updateMineLabel();
-		timeLabel.setText("000");
-		shieldsLabel.setText("Shields: 0");
-		probesLabel.setText("Probes: 0");
-		livesLabel.setText("Lives: 3");
-		playing=true;
-	}*/
 	
 	public void reset(){
 		//Initialize all the square objects and add them to the frame
@@ -453,6 +425,9 @@ public class EnhancedMinesweeper extends JFrame{
 		lives=3;
 		shields=0;
 		probes=0;
+		score=0;
+		time=0;
+		immortality=false;
 		timer.stop();
 		timeGoing=false;
 		smiley.setIcon(smileyImage);
@@ -481,9 +456,75 @@ public class EnhancedMinesweeper extends JFrame{
 		System.exit(0);
 	}
 	
-	//TODO: implement this method
+	public void askNewGame(){
+		int yes = JOptionPane.showConfirmDialog(null, "New Game?", "Do you wish to play a new game", JOptionPane.YES_NO_OPTION);
+		if(yes==0){
+			startNewGame=true;
+			Thread t = new Thread(new buttonListener());
+			t.start();
+		}
+		else{
+			exit();
+		}
+	}
+	
+	//ERROR: When a new game starts you need to resize it sometimes to make it work right??
 	public void newGame(){
+		setVisible(false);
+		selector.setVisible(true);
+		while(selector.isVisible()){
+			
+		}
+		setVisible(true);
+		int difficulty = selector.getDifficulty();
 		
+		//Remove everything so it can be rebuilt
+		if(squares!=null){
+			for(int y=0; y<squares.length; y++){
+				for(int x=0; x<squares[y].length; x++){
+					p2.remove(squares[y][x]);
+				}
+			}
+			this.remove(p4);
+			this.remove(p2);
+			this.remove(p3);
+		}
+		
+		//Start rebuilding everything
+		lives=3;
+		shields=0;
+		probes=0;
+		immortality=false;
+		score=0;
+		time=0;
+		playing = true;
+		
+		height = selector.getGridHeight();
+		width = selector.getGridWidth();
+		mines = selector.getMines();
+		powerups = selector.getPowerups();
+		squares = new Square[height][width];
+		p2.setLayout(new GridLayout(height, width));
+		height = 28*height;
+		width = 25*width;
+		
+		//Initialize all the square objects and add them to the frame
+		for(int y=0; y<squares.length; y++){
+			for(int x=0; x<squares[y].length; x++){
+				squares[y][x] = new Square();
+				squares[y][x].addActionListener(new buttonListener());
+				squares[y][x].addMouseListener(new handleRight());
+				p2.add(squares[y][x]);
+			}
+		}
+		add(BorderLayout.NORTH, p4);
+		add(BorderLayout.CENTER, p2);
+		add(BorderLayout.SOUTH, p3);
+		setMines(mines);
+		setPowerUps(powerups);
+		setNumber();
+		setSize(width, height+75);
+		startNewGame=false;
 	}
 	
 	public void revealAll(){
@@ -519,7 +560,10 @@ public class EnhancedMinesweeper extends JFrame{
 		@Override
 		
 		public void run(){
-			highScore();
+			if(startNewGame)
+				newGame();
+			else
+				highScore();
 		}
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==smiley){
@@ -577,7 +621,9 @@ public class EnhancedMinesweeper extends JFrame{
 				exit();
 			}
 			else if(e.getSource()==newGame){
-				newGame();
+				startNewGame=true;
+				Thread t = new Thread(new buttonListener());
+				t.start();
 			}
 			else if(e.getSource()==reset){
 				reset();

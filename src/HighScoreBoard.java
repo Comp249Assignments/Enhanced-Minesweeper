@@ -15,13 +15,9 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 	private JLabel highScorers;
 	private String userName;
 	
-	
-	
-	
-	
 	public HighScoreBoard(LinkedList<String> names, LinkedList<Integer> scores){
-		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setTitle("High Scores");
 		this.setLayout(new BorderLayout());
@@ -46,7 +42,7 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 		p1.setLayout(new GridLayout(3,1));
 		this.setLocationRelativeTo(null);
 		this.setSize(300,150);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		messageLabel=new JLabel("Congratulations, you have a high score of:\n " +score,SwingConstants.LEFT);
 		enterLabel=new JLabel("Please enter your name",SwingConstants.LEFT);
 		p1.add(messageLabel);
@@ -101,7 +97,4 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 		//while(!scorers.equals(userName.getText())){}
 		setVisible(false);		
 	}
-	
-
-
 }

@@ -5,7 +5,7 @@ import java.util.*;
 import javax.swing.*;
 
 public class DifficultySelector extends JFrame{
-	private boolean visible;
+	//private boolean visible;
 	private int difficulty, height, width, mines, powerups;
 	private JRadioButton r1 = new JRadioButton("Easy"), r2 = new JRadioButton("Medium"), r3 = new JRadioButton("Hard"), r4  = new JRadioButton("Custom");
 	private JTextField heightField = new JTextField(), widthField = new JTextField(10), minesField = new JTextField(10);
@@ -16,6 +16,10 @@ public class DifficultySelector extends JFrame{
 	
 	
 	public DifficultySelector(){
+		buildEverything();
+	}
+	
+	public void buildEverything(){
 		setLayout(new BorderLayout());
 		p1.setLayout(new GridLayout(4, 1));
 		p2.setLayout(new GridLayout(1, 7));
@@ -48,12 +52,19 @@ public class DifficultySelector extends JFrame{
 		setSize(500, 200);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		visible=true;
+		//visible=true;
+		p1.setVisible(true);
+		p2.setVisible(true);
+	}
+	
+	/*public void setVvisible(boolean visible){
+		this.visible=visible;
+		setVisible(visible);
 	}
 	
 	public boolean isVisible(){
 		return visible;
-	}
+	}*/
 	public int getDifficulty(){
 		return difficulty;
 	}
@@ -70,13 +81,12 @@ public class DifficultySelector extends JFrame{
 		return powerups;
 	}
 	
-	
-	
 	class buttonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//I put the dimensions and number of mines based on the difficulty setting of the original minesweeper
 			setVisible(false);
+			boolean visible=true;
 			if(r1.isSelected()){
 				difficulty=1;
 				height=10;

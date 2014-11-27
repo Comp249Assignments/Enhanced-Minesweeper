@@ -629,7 +629,8 @@ public class EnhancedMinesweeper extends JFrame{
 				reset();
 			}
 			else if(e.getSource()==highscore){
-				highScore();
+				Thread t=new Thread(new buttonListener());
+				t.start();
 			}
 		}
 	}

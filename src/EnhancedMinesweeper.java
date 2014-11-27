@@ -374,7 +374,7 @@ public class EnhancedMinesweeper extends JFrame{
 			playing=false;
 			score=score*selector.getDifficulty()-time;
 			smiley.setIcon(winSmileyImage);
-			JOptionPane.showMessageDialog(null, "You won!\nyour score is: "+ score);
+			JOptionPane.showMessageDialog(null, "You won!\nyour score is: "+ (score+20));
 			Thread t=new Thread(new buttonListener());
 			t.start();
 		}
@@ -629,7 +629,7 @@ public class EnhancedMinesweeper extends JFrame{
 				reset();
 			}
 			else if(e.getSource()==highscore){
-				
+				highScore();
 			}
 		}
 	}

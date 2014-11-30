@@ -5,24 +5,23 @@ import java.util.*;
 import javax.swing.*;
 
 public class DifficultySelector extends JFrame{
-	//private boolean visible;
 	private int difficulty, height, width, mines, powerups;
 	private JRadioButton r1 = new JRadioButton("Easy"), r2 = new JRadioButton("Medium"), r3 = new JRadioButton("Hard"), r4  = new JRadioButton("Custom");
-	private JTextField heightField = new JTextField(), widthField = new JTextField(10), minesField = new JTextField(10);
-	private JLabel heightLabel = new JLabel("Height", SwingConstants.RIGHT), widthLabel = new JLabel("Width", SwingConstants.RIGHT), minesLabel = new JLabel("Mines", SwingConstants.RIGHT);
+	private JTextField heightField = new JTextField(7), widthField = new JTextField(7), minesField = new JTextField(7), powerUpField = new JTextField(7);
+	private JLabel heightLabel = new JLabel("Height", SwingConstants.RIGHT), widthLabel = new JLabel("Width", SwingConstants.RIGHT), minesLabel = new JLabel("Mines", SwingConstants.RIGHT), powerUpLabel = new JLabel("Powerups", SwingConstants.RIGHT);
 	private JButton okButton = new JButton("Ok");
 	private ButtonGroup buttonGroup = new ButtonGroup();
 	private JPanel p1 = new JPanel(), p2 = new JPanel();
-	
 	
 	public DifficultySelector(){
 		buildEverything();
 	}
 	
+	//method to build the frame
 	public void buildEverything(){
 		setLayout(new BorderLayout());
 		p1.setLayout(new GridLayout(4, 1));
-		p2.setLayout(new GridLayout(1, 7));
+		p2.setLayout(new GridLayout(1, 9));
 		
 		buttonGroup.add(r1);
 		buttonGroup.add(r2);
@@ -36,6 +35,8 @@ public class DifficultySelector extends JFrame{
 		p2.add(widthField);
 		p2.add(minesLabel);
 		p2.add(minesField);
+		p2.add(powerUpLabel);
+		p2.add(powerUpField);
 		p1.add(r1);
 		p1.add(r2);
 		p1.add(r3);
@@ -49,22 +50,13 @@ public class DifficultySelector extends JFrame{
 		
 		setTitle("Enhanced Minesweeper Difficulty Selection");
 		setLocationRelativeTo(null); // Center the frame   
-		setSize(500, 200);
+		setSize(650, 200);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		//visible=true;
 		p1.setVisible(true);
 		p2.setVisible(true);
 	}
 	
-	/*public void setVvisible(boolean visible){
-		this.visible=visible;
-		setVisible(visible);
-	}
-	
-	public boolean isVisible(){
-		return visible;
-	}*/
 	public int getDifficulty(){
 		return difficulty;
 	}
@@ -81,62 +73,83 @@ public class DifficultySelector extends JFrame{
 		return powerups;
 	}
 	
+	//For the ok button. Sets the dimensions, number of mines, and number of powerups based on the difficulty selected.
 	class buttonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//I put the dimensions and number of mines based on the difficulty setting of the original minesweeper
-			setVisible(false);
+			//I put the dimensions and number of mines based on the difficulty settings of the original minesweeper
 			boolean visible=true;
+			boolean error=true;
+			//easy
 			if(r1.isSelected()){
 				difficulty=1;
 				height=10;
 				width=10;
 				mines=10;
 				powerups=10;
-				visible=false;
+				error=false;
 			}
+			//medium
 			else if(r2.isSelected()){
 				difficulty=2;
 				height=16;
 				width=16;
 				mines=40;
 				powerups=4;
-				visible=false;
+				error=false;
 			}
+			//hard
 			else if(r3.isSelected()){
 				difficulty=3;
 				height=16;
 				width=30;
 				mines=99;
 				powerups=5;
-				visible=false;
+				error=false;
 			}
+			//custom with error handling in case the user enters impossible setups
 			else{
-				//TO DO: Proper error handling for this stuff
 				difficulty=4;
-				//System.out.println("Here");
-				boolean error=false;
-				if(!(heightLabel.getText()==null||widthLabel.getText()==null||minesLabel.getText()==null)){
-					//System.out.println("Here2");
+				//If any of the spaces were left blank, then there will be an error
+				if(!(heightLabel.getText()==null||widthLabel.getText()==null||minesLabel.getText()==null||powerUpLabel.getText()==null)){
 					try{
-						//System.out.println("Here3");
-						//System.out.println("height " + heightLabel.getText() + " width " + widthLabel.getText() + " mines " + minesLabel.getText());
 						height=Integer.parseInt(heightField.getText());
 						width=Integer.parseInt(widthField.getText());
 						mines=Integer.parseInt(minesField.getText());
-						//System.out.println("height " + height + " width " + width + " mines " + mines);
-						if(mines>=(width*height*3)||mines<=0){
+						powerups=Integer.parseInt(powerUpField.getText());
+						error=false;
+						//if there are so many mines that there couldn't possibly be an open space, then there will be an error
+						if(mines>=(width*height*3-3)){
 							error=true;
-							//System.out.println("Here4");
+							JOptionPane.showMessageDialog(null, "Error: Too many mines for the space defined", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}
+						//if there are enough mines so that the code might not be able to fit all the powerups, then there will be an error
+						if(powerups!=0&&(width*height)-mines<=powerups){
+							error=true;
+							JOptionPane.showMessageDialog(null, "Error: Too many mines and powerups for the space defined", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}
+						//If the user tries to start a game with 0 mines or negative mines, then there will be an error
+						if(mines<=0){
+							error=true;
+							JOptionPane.showMessageDialog(null, "Error: There must be at least one mine", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}
+						//If the user tries to start a game with negative powerups, then there will be an error
+						if(powerups<0){
+							error=true;
+							JOptionPane.showMessageDialog(null, "Error: There can't be less than 0 powerups", "ERROR", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					catch(NumberFormatException f){
+						JOptionPane.showMessageDialog(null, "Error: One or more of the entries was not a valid number", "ERROR", JOptionPane.ERROR_MESSAGE);
 						error=true;
-						//System.out.println("Here5");
 					}
 				}
-				visible=error;
+				else{
+					JOptionPane.showMessageDialog(null, "You must enter a value for all the spaces", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
 			}
+			visible=error;
+			//if no errors are detected, the code can continue, so the frame will be hidden
 			setVisible(visible);
 		}
 	}

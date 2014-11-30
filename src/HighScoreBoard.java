@@ -16,7 +16,6 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 	private String userName;
 	
 	public HighScoreBoard(LinkedList<String> names, LinkedList<Integer> scores){
-		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setTitle("High Scores");
@@ -55,46 +54,12 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 		while(this.isVisible()){}
 		userName=nameInput.getText();
 	}
-								
-/*
-	public int getScore(int location){
-		return scores[location];
-	}
 	
-	public void setNewScore(int location, int newScore, String userName){
-		if(location==-1)
-			return;
-		for(int i=9;i>=location;i--){
-			scores[i]=scores[i-1];
-			scorers[i]=scorers[i-1];
-		}
-		scores[location]=newScore;
-		scorers[location]=userName;
-	}
-	
-	*/
-	/*
-	public int checkIfHigh(int newScore){
-		for(int i=0;i<9;i++){
-			if(newScore>scores[i]&&newScore<=scores[i+1]){
-				return i;
-			}
-			if(newScore>scores[9])
-				return 9;
-		}
-		return -1;
-	}
-	
-	public String submit(){
-		return userName.toString();
-	}
-	*/
 	public String getUserName(){
 		return userName;
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		//while(!scorers.equals(userName.getText())){}
 		setVisible(false);		
 	}
 }

@@ -16,7 +16,7 @@ public class EnhancedMinesweeper extends JFrame{
 	private JButton smiley = new JButton(smileyImage);
 	private JMenuBar menubar = new JMenuBar();
 	private JMenu file = new JMenu("File"), game = new JMenu("Game");
-	private JMenuItem save = new JMenuItem("Save"), load = new JMenuItem("Load"), exit = new JMenuItem("Exit"), newGame = new JMenuItem("New Game"), reset = new JMenuItem("Reset"), highscore= new JMenuItem("Highscore");
+	private JMenuItem save = new JMenuItem("Save"), load = new JMenuItem("Load"), exit = new JMenuItem("Exit"), newGame = new JMenuItem("New Game"), reset = new JMenuItem("Reset"), highscore= new JMenuItem("Highscore"), instructions = new JMenuItem("Instructions");
 	private int mines, lives, height, width, time, shields, probes, score, powerups;
 	private boolean playing, timeGoing, immortality, startNewGame;
 	private Timer timer = new Timer(1000, new timerListener());
@@ -41,6 +41,7 @@ public class EnhancedMinesweeper extends JFrame{
 		game.add(newGame);
 		game.add(highscore);
 		game.add(reset);
+		game.add(instructions);
 		menubar.add(file);
 		menubar.add(game);
 		save.addActionListener(new menuListener());
@@ -48,6 +49,8 @@ public class EnhancedMinesweeper extends JFrame{
 		exit.addActionListener(new menuListener());
 		newGame.addActionListener(new menuListener());
 		highscore.addActionListener(new menuListener());
+		reset.addActionListener(new menuListener());
+		instructions.addActionListener(new menuListener());
 		
 		p4.setLayout(new BorderLayout());
 		p1.add(mineLabel);
@@ -99,7 +102,6 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 	}
-	
 	
 	//Method that sets the number of adjacent mines for each space
 	public void setNumber(){
@@ -691,6 +693,24 @@ public class EnhancedMinesweeper extends JFrame{
 					}
 				}
 				HighScoreBoard highScoreBoard=new HighScoreBoard(highScorers, highScores);
+			}
+			else if(e.getSource()==instructions){
+				JOptionPane.showMessageDialog(null, "Welcome to Enhanced Minesweeper!\n"
+						+ "This is much like regular minesweeper except for a few major differences.\n"
+						+ "1) A space can have up to 3 mines in it\n"
+						+ "2) There are 4 possible powerups\n"
+						+ "3) There are lives\n"
+						+ "\n"
+						+ "Powerups:\n"
+						+ "Shields: A shield will protect you from clicking on mines once\n"
+						+ "Probes: A probe lets you check a spot to see if it is a mine. To use a probe, flag a space and then click on it\n"
+						+ "Score: These give you extra points\n"
+						+ "Invincibility: These are very rare and make you invincible for the rest of the game\n"
+						+ "\n"
+						+ "You have 3 lives and clicking on mines (even if there are multiple in one spot) removes 1 life.\n"
+						+ "When you get to 0 lives, you lose.\n"
+						+ "Highscore is calculated based on the number of times you clicked and the time it took (along with score powerups)\n"
+						+ "Good luck and have fun!", "Instructions", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}

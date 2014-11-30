@@ -27,18 +27,6 @@ public class EnhancedMinesweeper extends JFrame{
 	public EnhancedMinesweeper(){
 		timeGoing=false;
 		startNewGame=false;
-		//makes sure a difficulty has been selected before moving on
-		/*while(selector.isVisible()){
-			
-		}
-		int difficulty = selector.getDifficulty();
-		lives=3;
-		shields=0;
-		probes=0;
-		immortality=false;
-		score=0;
-		time=0;
-		playing = true;*/
 		
 		setLayout(new BorderLayout());
 		
@@ -72,66 +60,6 @@ public class EnhancedMinesweeper extends JFrame{
 		p3.add(probesLabel);
 		
 		newGame();
-		
-		//Btw, in case you get mixed up (I always do) 2D arrays go array[row][column]
-		/*height = selector.getGridHeight();
-		width = selector.getGridWidth();
-		mines = selector.getMines();
-		powerups = selector.getPowerups();
-		squares = new Square[height][width];
-		p2.setLayout(new GridLayout(height, width));
-		height = 28*height;
-		width = 25*width;*/
-		
-		/*if(difficulty==1){
-			squares = new Square[9][9];
-			mines = 10;
-			//Dimensions of the image are 16 by 16, but I made it a bit bigger so they're not all squished together
-			height = 21*9;
-			width = 18*9;
-			setLayout(new GridLayout(9, 9));
-		}
-		else if(difficulty==2){
-			squares = new Square[16][16];
-			mines = 40;
-			height = 21*16;
-			width = 18*16;
-			setLayout(new GridLayout(16, 16));
-		}
-		else if(difficulty==3){
-			squares = new Square[16][30];
-			mines = 99;
-			height = 21*16;
-			width = 18*30;
-			setLayout(new GridLayout(16, 30));
-		}
-		else{
-			height = selector.getGridHeight();
-			width = selector.getGridWidth();
-			mines = selector.getMines();
-			squares = new Square[height][width];
-			setLayout(new GridLayout(height, width));
-			height = 21*height;
-			width = 18*width;
-		}*/
-		
-		//Initialize all the square objects and add them to the frame
-		/*for(int y=0; y<squares.length; y++){
-			for(int x=0; x<squares[y].length; x++){
-				squares[y][x] = new Square();
-				squares[y][x].addActionListener(new buttonListener());
-				squares[y][x].addMouseListener(new handleRight());
-				p2.add(squares[y][x]);
-			}
-		}
-		//addMouseListener(new mouse());
-		add(BorderLayout.NORTH, p4);
-		add(BorderLayout.CENTER, p2);
-		add(BorderLayout.SOUTH, p3);
-		setMines(mines);
-		setPowerUps(powerups);
-		setNumber();
-		setSize(width, height+75);*/
 	}
 	
 	public static void main(String[] args) {
@@ -148,25 +76,14 @@ public class EnhancedMinesweeper extends JFrame{
 		while (mines>0){
 			int y=random.nextInt(squares.length);
 			int x=random.nextInt(squares[y].length);
-			//I'm not sure why you put this here. This would make it so that spaces could only hold one mine at a time
-			/*if(squares[y][x].getMines()!=0){
-				continue;
-			}*/
-			//There's a max of 3 mines in any one spot. Anything more than that would be ridiculous
+			
+			//There's a max of 3 mines in any one spot. We felt that more than that would be a bit much
 			if(squares[y][x].getMines()!=3)
 			{
 				squares[y][x].addMine();
 				mines--;
 			}
 		}
-		/*for(int y=0; y<squares.length; y++){
-			for(int x=0; x<squares[y].length; x++){
-				System.out.print(squares[y][x].getMines()+ " ");
-			}
-			System.out.println();
-		}
-		System.out.println();
-		System.out.println();*/
 	}
 	
 	//Randomly places all the powerups. Receives number of powerups and picks randomly which type it'll be
@@ -174,12 +91,10 @@ public class EnhancedMinesweeper extends JFrame{
 		while (powerups>0){
 			int y=random.nextInt(squares.length);
 			int x=random.nextInt(squares[y].length);
-			/*if(squares[x][y]!=0){
-				continue;
-			}*/
+			
 			//Will only add a powerup if there is no mine and no powerup there
 			if(squares[y][x].getMines()==0 && squares[y][x].hasPowerUp()==0){
-				squares[y][x].addPowerUp(random.nextInt(10));
+				squares[y][x].addPowerUp(random.nextInt(100));
 				powerups--;
 			}
 		}
@@ -223,15 +138,7 @@ public class EnhancedMinesweeper extends JFrame{
 				number=0;
 			}
 		}
-		/*for(int y=0; y<squares.length; y++){
-			for(int x=0; x<squares[y].length; x++){
-				System.out.print(squares[y][x].getNumber()+ " ");
-			}
-			System.out.println();
-		}*/
 	}
-	
-	//TODO: Add custom powerups thing
 	
 	//If you click an empty space this will clear out all adjacent empty spaces
 	public void clickAdjacent(int x, int y){
@@ -298,6 +205,7 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
+	//This method runs when you click on a mine
 	public void hitMine(){
 		score-=120;
 		if(!immortality){
@@ -322,7 +230,9 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
+	//This runs when a powerup is activated
 	public void implementPowerUp(int type, int x, int y){
+		//Type 9 means invincibility
 		if(type==9){
 			immortality=true;
 			lives=999;
@@ -330,6 +240,7 @@ public class EnhancedMinesweeper extends JFrame{
 			smiley.setIcon(superSaiyan);
 			return;
 		}
+		//Otherwise there are three other types. Numbers congruent to 0 mod 3 are shields, 1 mod 3 are probes, and 2 mod 3 are score boosters
 		else{
 			switch (type%3){
 				case 0:
@@ -346,6 +257,9 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 	}
+	//TODO: add instructions
+	
+	//This method properly formats the mine label based on how many mines there are
 	public void updateMineLabel(){
 		if(mines<10){
 			mineLabel.setText("00"+mines);
@@ -381,7 +295,7 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	//TODO: Implement high scores
+	//Displays the highscore board
 	public  void highScore(){
 		if(highScoreLoad()==0){
 			for(int i=0;i<10;i++){
@@ -414,8 +328,8 @@ public class EnhancedMinesweeper extends JFrame{
 		askNewGame();
 	}
 	
+	//Resets the game
 	public void reset(){
-		//Initialize all the square objects and add them to the frame
 		for(int y=0; y<squares.length; y++){
 			for(int x=0; x<squares[y].length; x++){
 				squares[y][x].reset();
@@ -505,7 +419,6 @@ public class EnhancedMinesweeper extends JFrame{
 				e.printStackTrace();
 			}
 	}
-
 	
 	//loads the previously saved game
 	public void load(){
@@ -564,6 +477,7 @@ public class EnhancedMinesweeper extends JFrame{
 			add(BorderLayout.SOUTH, p3);
 			setSize(width, height+75);
 			input.close();
+			smiley.setIcon(smileyImage);
 			setVisible(false);
 
 			setVisible(true);
@@ -580,10 +494,12 @@ public class EnhancedMinesweeper extends JFrame{
 		
 	}
 	
+	//Exits the game
 	public void exit(){
 		System.exit(0);
 	}
 	
+	//Asks the user if they want to play a new game. Runs after a victory or loss
 	public void askNewGame(){
 		int yes = JOptionPane.showConfirmDialog(null, "New Game?", "Do you wish to play a new game", JOptionPane.YES_NO_OPTION);
 		if(yes==0){
@@ -596,7 +512,7 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
-	//ERROR: When a new game starts you need to resize it sometimes to make it work right??
+	//Starts a new game (with the option to change difficulty and everything)
 	public void newGame(){
 		setVisible(false);
 		selector.setVisible(true);
@@ -645,6 +561,7 @@ public class EnhancedMinesweeper extends JFrame{
 				p2.add(squares[y][x]);
 			}
 		}
+		smiley.setIcon(smileyImage);
 		add(BorderLayout.NORTH, p4);
 		add(BorderLayout.CENTER, p2);
 		add(BorderLayout.SOUTH, p3);
@@ -653,8 +570,13 @@ public class EnhancedMinesweeper extends JFrame{
 		setNumber();
 		setSize(width, height+75);
 		startNewGame=false;
+		
+		//The frame wasn't displaying properly until it was resized, so now the code resizes it to fix that problem
+		setSize(100, 100);
+		setSize(width, height+75);
 	}
 	
+	//Reveals the location of all mines and powerups when you lose or win
 	public void revealAll(){
 		for(int y=0; y<squares.length; y++){
 			for(int x=0; x<squares[y].length; x++){
@@ -663,6 +585,8 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
+	//We put all the listeners as nested classes so that they would have direct access to the methods and variables
+	//This is for  right clicking for flags and such
 	class handleRight implements MouseListener{
 		public void mousePressed(MouseEvent e){}
 		
@@ -683,7 +607,8 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 	}
-	
+	//TODO: Reset button
+	//This handles when you click on any button or when you start a new game or open the highscore board
 	class buttonListener implements ActionListener, Runnable{
 		@Override
 		
@@ -736,6 +661,7 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 	}
 	
+	//This handles all the buttons on the menu at the top
 	class menuListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -765,12 +691,11 @@ public class EnhancedMinesweeper extends JFrame{
 					}
 				}
 				HighScoreBoard highScoreBoard=new HighScoreBoard(highScorers, highScores);
-
-				
 			}
 		}
 	}
 	
+	//This is for the timer. It runs this every second that the timer is running
 	class timerListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {

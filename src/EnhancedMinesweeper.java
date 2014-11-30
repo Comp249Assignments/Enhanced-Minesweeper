@@ -382,7 +382,7 @@ public class EnhancedMinesweeper extends JFrame{
 	
 	//TODO: Implement high scores
 	public  void highScore(){
-		if(load()==0){
+		if(highScoreLoad()==0){
 			for(int i=0;i<10;i++){
 				highScorers.add("empty");
 				highScores.add(0);
@@ -408,6 +408,7 @@ public class EnhancedMinesweeper extends JFrame{
 		}
 		
 		HighScoreBoard highScoreBoard=new HighScoreBoard(highScorers, highScores);
+		highScoreSave();
 		while(highScoreBoard.isVisible());
 		askNewGame();
 	}
@@ -442,14 +443,140 @@ public class EnhancedMinesweeper extends JFrame{
 		setNumber();
 	}
 	
-	//TODO: implement this method
-	public void save(){
-		
+	//loads the highScore list and returns 0 if there is no list to load
+	public int highScoreLoad(){
+		try{
+		ObjectInputStream input2 = new ObjectInputStream(new FileInputStream("highScore saves.txt"));
+		highScores=(LinkedList<Integer>)input2.readObject();
+		highScorers=(LinkedList<String>)input2.readObject();
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		catch(FileNotFoundException e){
+			return 0;
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		return 1;
 	}
 	
-	//TODO: implement this method
-	public int load(){
-		return 0;
+	//records the highScore list
+	public void highScoreSave(){
+		try{
+		ObjectOutputStream output2 = new ObjectOutputStream(new FileOutputStream("highScore saves.txt"));
+		output2.writeObject(highScores);
+		output2.writeObject(highScorers);
+		output2.close();
+		} 
+		catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		
+	}
+	//saves the game
+	public void save(){
+		try{
+			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("saves.txt"));
+			output.writeObject(squares);
+			output.writeObject(highScores);
+			output.writeObject(highScorers);
+			output.writeObject(selector);
+			output.writeInt(lives);
+			output.writeInt(shields);
+			output.writeInt(probes);
+			output.writeInt(score);
+			output.writeInt(time);
+			output.writeInt(mines);
+			output.writeBoolean(immortality);
+			
+			output.flush();
+			output.close();
+			}
+			catch(FileNotFoundException e){
+				e.printStackTrace();
+			}
+			catch (IOException e){
+				e.printStackTrace();
+			}
+	}
+
+	
+	//loads the previously saved game
+	public void load(){
+		try{
+			int difficulty = selector.getDifficulty();
+			
+			//Remove everything so it can be rebuilt
+			if(squares!=null){
+				for(int y=0; y<squares.length; y++){
+					for(int x=0; x<squares[y].length; x++){
+						p2.remove(squares[y][x]);
+					}
+				}
+				this.remove(p4);
+				this.remove(p2);
+				this.remove(p3);
+			}
+			ObjectInputStream input=new ObjectInputStream(new FileInputStream("saves.txt"));
+			squares=(Square[][])input.readObject();
+			highScores=(LinkedList<Integer>)input.readObject();
+			highScorers=(LinkedList<String>)input.readObject();
+			selector=(DifficultySelector)input.readObject();
+
+			lives=input.readInt();
+			livesLabel.setText("Lives: "+ lives);
+
+			shields=input.readInt();
+			shieldsLabel.setText("Shields: "+ shields);
+
+			probes=input.readInt();
+			probesLabel.setText("Probes: "+ probes);
+			
+			score=input.readInt();
+
+			time=input.readInt();
+			
+			mines=input.readInt();
+			updateMineLabel();
+			immortality=input.readBoolean();
+			playing = true;
+			
+			height = selector.getGridHeight();
+			width = selector.getGridWidth();
+			p2.setLayout(new GridLayout(height, width));
+			height = 28*height;
+			width = 25*width;
+			for(int y=0; y<squares.length; y++){
+				for(int x=0; x<squares[y].length; x++){
+					squares[y][x].addActionListener(new buttonListener());
+					squares[y][x].addMouseListener(new handleRight());
+					p2.add(squares[y][x]);
+				}
+			}
+			add(BorderLayout.NORTH, p4);
+			add(BorderLayout.CENTER, p2);
+			add(BorderLayout.SOUTH, p3);
+			setSize(width, height+75);
+			input.close();
+			setVisible(false);
+
+			setVisible(true);
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void exit(){
@@ -613,6 +740,7 @@ public class EnhancedMinesweeper extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==save){
 				save();
+				JOptionPane.showMessageDialog(null,"saved");
 			}
 			else if(e.getSource()==load){
 				load();
@@ -629,8 +757,15 @@ public class EnhancedMinesweeper extends JFrame{
 				reset();
 			}
 			else if(e.getSource()==highscore){
-				Thread t=new Thread(new buttonListener());
-				t.start();
+				if(highScoreLoad()==0){
+					for(int i=0;i<10;i++){
+						highScorers.add("empty");
+						highScores.add(0);
+					}
+				}
+				HighScoreBoard highScoreBoard=new HighScoreBoard(highScorers, highScores);
+
+				
 			}
 		}
 	}

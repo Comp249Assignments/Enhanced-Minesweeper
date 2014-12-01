@@ -30,8 +30,6 @@ public class EnhancedMinesweeper extends JFrame{
 		
 		setLayout(new BorderLayout());
 		
-		//TODO: Make the mine count decrease when putting a flag. Done, but needs to be fixed
-		//TODO: Make the top panel look better
 		smiley.setPreferredSize(new Dimension(27, 27));
 		smiley.addActionListener(new buttonListener());
 		
@@ -259,7 +257,6 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 	}
-	//TODO: add instructions
 	
 	//This method properly formats the mine label based on how many mines there are
 	public void updateMineLabel(){
@@ -610,7 +607,7 @@ public class EnhancedMinesweeper extends JFrame{
 			}
 		}
 	}
-	//TODO: Reset button
+	
 	//This handles when you click on any button or when you start a new game or open the highscore board
 	class buttonListener implements ActionListener, Runnable{
 		@Override

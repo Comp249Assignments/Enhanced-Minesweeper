@@ -15,6 +15,7 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 	private JLabel highScorers;
 	private String userName;
 	
+	//Creates a highscore board where high scores are displayed with names and scores.
 	public HighScoreBoard(LinkedList<String> names, LinkedList<Integer> scores){
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -35,6 +36,7 @@ public class HighScoreBoard extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 	
+	//requests the user to enter a name to go along with the score in the highscore board
 	public HighScoreBoard(int score){
 		this.setTitle("Congratulations");
 		this.setLayout(new BorderLayout());

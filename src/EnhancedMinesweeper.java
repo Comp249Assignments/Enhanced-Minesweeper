@@ -292,6 +292,7 @@ public class EnhancedMinesweeper extends JFrame{
 			score=score*selector.getDifficulty()-time;
 			smiley.setIcon(winSmileyImage);
 			JOptionPane.showMessageDialog(null, "You won!\nyour score is: "+ (score+20));
+			// activates highScore(). and is needed since you cant pause a single thread in the middle of an ActionEvent
 			Thread t=new Thread(new buttonListener());
 			t.start();
 		}
